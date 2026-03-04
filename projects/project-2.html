@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verdant — Aria Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/project.css">
+  <style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #0a1a0e 0%, #1C3D22 40%, #2d7a3f 80%, #4a9e5c 130%);
+    }
+    .verdant-demo {
+      display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; justify-content: center;
+    }
+    .vd-browser {
+      width: 480px;
+      background: #0a1a0d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .vd-chrome {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 14px; background: #0d2414;
+    }
+    .vd-dots { display: flex; gap: 5px; }
+    .vd-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+    .vd-url {
+      flex:1; height: 18px; background: rgba(255,255,255,0.06);
+      border-radius: 9px; margin-left: 10px;
+    }
+    .vd-body { padding: 0; }
+    .vd-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vd-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-style: italic; }
+    .vd-nav-links { display: flex; gap: 12px; }
+    .vd-nav-links span { font-size: 0.55rem; color: rgba(241,229,217,0.5); }
+    .vd-hero-banner {
+      height: 100px;
+      background: linear-gradient(135deg, #1E5433, #2d7a47);
+      display: flex; align-items: center; padding: 0 20px;
+      position: relative; overflow: hidden;
+    }
+    .vd-hero-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .vd-hero-text p { font-size: 0.5rem; color: rgba(241,229,217,0.7); margin-top: 4px; }
+    .vd-hero-cta {
+      margin-top: 8px; padding: 4px 12px; background: var(--pink);
+      color: var(--dark); font-size: 0.45rem; border-radius: 20px;
+      display: inline-block; font-weight: 600;
+    }
+    .vd-hero-leaf {
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+      font-size: 3rem; opacity: 0.3;
+    }
+    .vd-filter-bar {
+      display: flex; gap: 6px; padding: 10px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vd-filter {
+      padding: 3px 8px; border-radius: 20px; font-size: 0.45rem;
+      background: rgba(255,255,255,0.05); color: rgba(241,229,217,0.5);
+    }
+    .vd-filter--active { background: rgba(233,180,182,0.2); color: var(--pink); }
+    .vd-products {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 20px 20px;
+    }
+    .vd-prod { border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.04); }
+    .vd-prod-img {
+      height: 60px;
+      background: linear-gradient(135deg, rgba(30,84,51,0.8), rgba(45,122,71,0.6));
+    }
+    .vd-prod-img--2 { background: linear-gradient(135deg, rgba(233,180,182,0.3), rgba(241,229,217,0.1)); }
+    .vd-prod-img--3 { background: linear-gradient(135deg, rgba(28,61,34,0.9), rgba(30,84,51,0.7)); }
+    .vd-prod-info { padding: 6px; }
+    .vd-prod-name { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-bottom: 3px; }
+    .vd-prod-price { font-size: 0.45rem; color: var(--cream); margin-bottom: 3px; }
+    .vd-prod-tags { display: flex; gap: 2px; }
+    .vd-tag { font-size: 0.3rem; padding: 1px 4px; background: rgba(233,180,182,0.15); color: var(--pink); border-radius: 3px; }
+
+    .journey-steps {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .journey-step {
+      display: flex; gap: 1.5rem; padding: 2rem 0;
+      border-bottom: 1px solid var(--border); align-items: flex-start;
+    }
+    .journey-step:last-child { border-bottom: none; }
+    .js-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; color: rgba(233,180,182,0.2); line-height: 1;
+      flex-shrink: 0; width: 3rem; text-align: right; padding-top: 0.2rem;
+    }
+    .js-body {}
+    .js-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: var(--cream); margin-bottom: 0.5rem;
+    }
+    .js-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">AC</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding-right:10%;pointer-events:none;">
+        <div style="font-size:18rem;opacity:0.04;user-select:none;">🌿</div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>E-Commerce · Sustainability · 2023</div>
+      <h1 data-animate>Verdant</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        A sustainable fashion marketplace that makes ethical shopping as beautiful and easy as conventional retail.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">UX Lead + Visual Design</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">18 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Adobe XD, Maze, Hotjar</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">Web (Responsive)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Making ethics as easy as clicking "Add to Cart"</h2>
+          <p style="margin-top:1.2rem;">Sustainable fashion exists, but finding it is exhausting. Consumers have to navigate dozens of indie brand websites with inconsistent UX, no centralised search, and zero transparency on what "sustainable" actually means for a given product.</p>
+          <p>Verdant needed to solve the discovery problem — but without lecturing users. The goal was a platform that felt like ASOS for conscious shoppers, not a climate anxiety simulator.</p>
+          <div class="callout">
+            <p>"How do we make sustainable fashion feel aspirational and effortless, not preachy?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Deliverables</div>
+            <ul class="aside-list">
+              <li>Discovery & research synthesis</li>
+              <li>Content strategy framework</li>
+              <li>Full responsive design system</li>
+              <li>Product listing templates</li>
+              <li>Checkout & cart flows</li>
+              <li>Sustainability rating system UI</li>
+              <li>Brand onboarding flow</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Impact</div>
+            <ul class="aside-list">
+              <li>40% higher conversion vs benchmark</li>
+              <li>22% lower cart abandonment</li>
+              <li>4.8/5 usability score</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Research</div>
+        <h2>The <em>real</em> barrier to sustainable shopping</h2>
+      </div>
+      <p data-animate>I surveyed 250 online shoppers aged 22–40 who described themselves as environmentally conscious, but whose actual sustainable purchase history was low. The gap between intention and action was the core problem.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="content-3col">
+        <div class="insight-card" data-animate>
+          <h4>🔍 Discovery fatigue</h4>
+          <p>78% of respondents had abandoned a sustainable purchase because finding the right product took "too long". Average search session was 14 minutes before giving up.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🏷 Greenwashing distrust</h4>
+          <p>64% didn't trust sustainability claims made by brands directly. They wanted third-party verification displayed clearly at point of purchase.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>💸 Price justification</h4>
+          <p>Sustainable items are often 30–80% more expensive. Users needed the story behind the price — the craftsmanship, materials, and fair wages — surfaced naturally.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Design System</div>
+        <h2>Building trust through <em>visual language</em></h2>
+      </div>
+      <p data-animate>The design system needed to communicate transparency and authenticity. I developed a "Sustainability Score" visual component — a simple 5-leaf rating visible on every product card — that gave users instant legibility without information overload.</p>
+      <p data-animate style="margin-top:1rem;">Typography and colour choices drew from natural materials: earthy greens, warm neutrals, and selective blush pink accents to signal warmth and quality without greenwashing aesthetics.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="verdant-demo">
+          <div class="vd-browser">
+            <div class="vd-chrome">
+              <div class="vd-dots"><span></span><span></span><span></span></div>
+              <div class="vd-url"></div>
+            </div>
+            <div class="vd-body">
+              <div class="vd-nav">
+                <div class="vd-logo">Verdant</div>
+                <div class="vd-nav-links">
+                  <span>Women</span><span>Men</span><span>Home</span><span>About</span>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <div style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+                  <div style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+                </div>
+              </div>
+              <div class="vd-hero-banner">
+                <div class="vd-hero-text">
+                  <h3>Wear your values</h3>
+                  <p>200+ certified sustainable brands in one place</p>
+                  <div class="vd-hero-cta">Shop Now →</div>
+                </div>
+                <div class="vd-hero-leaf">🌿</div>
+              </div>
+              <div class="vd-filter-bar">
+                <div class="vd-filter vd-filter--active">All</div>
+                <div class="vd-filter">🌿 Organic</div>
+                <div class="vd-filter">♻️ Recycled</div>
+                <div class="vd-filter">🤝 Fair Trade</div>
+                <div class="vd-filter">🌱 Vegan</div>
+              </div>
+              <div class="vd-products">
+                <div class="vd-prod">
+                  <div class="vd-prod-img"></div>
+                  <div class="vd-prod-info">
+                    <div class="vd-prod-name"></div>
+                    <div class="vd-prod-price">$89</div>
+                    <div class="vd-prod-tags">
+                      <div class="vd-tag">🌿 Organic</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="vd-prod">
+                  <div class="vd-prod-img vd-prod-img--2"></div>
+                  <div class="vd-prod-info">
+                    <div class="vd-prod-name"></div>
+                    <div class="vd-prod-price">$124</div>
+                    <div class="vd-prod-tags">
+                      <div class="vd-tag">♻️ Recycled</div>
+                      <div class="vd-tag">🤝 Fair</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="vd-prod">
+                  <div class="vd-prod-img vd-prod-img--3"></div>
+                  <div class="vd-prod-info">
+                    <div class="vd-prod-name"></div>
+                    <div class="vd-prod-price">$67</div>
+                    <div class="vd-prod-tags">
+                      <div class="vd-tag">🌱 Vegan</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — User Journey</div>
+        <h2>Designing a shopping flow that <em>educates without lecturing</em></h2>
+      </div>
+      <div class="journey-steps">
+        <div class="journey-step" data-animate>
+          <div class="js-num">1</div>
+          <div class="js-body">
+            <h3 class="js-title">Discover through values, not categories</h3>
+            <p class="js-text">Onboarding asks users to select values (Organic, Fair Trade, Local, etc.) rather than clothing categories. This filters the entire catalogue to products that align with what they actually care about.</p>
+          </div>
+        </div>
+        <div class="journey-step" data-animate>
+          <div class="js-num">2</div>
+          <div class="js-body">
+            <h3 class="js-title">Trust built into every product card</h3>
+            <p class="js-text">The "Verdant Score" (a 5-leaf rating) appears on every card with a tap-to-explain tooltip. Users learn what it means through interaction, not upfront education that interrupts browsing.</p>
+          </div>
+        </div>
+        <div class="journey-step" data-animate>
+          <div class="js-num">3</div>
+          <div class="js-body">
+            <h3 class="js-title">Price narrative at point of decision</h3>
+            <p class="js-text">A "Why this price?" accordion on product pages breaks down cost into materials, labour, and brand margin — giving users the story they need to feel good about spending more.</p>
+          </div>
+        </div>
+        <div class="journey-step" data-animate>
+          <div class="js-num">4</div>
+          <div class="js-body">
+            <h3 class="js-title">Carbon offset built into checkout</h3>
+            <p class="js-text">A single checkbox in checkout offsets shipping emissions for $0.40. Default on. Opt-out if needed. 89% of beta users kept it checked.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Results</div>
+        <h2>Impact in numbers</h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="40">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">higher conversion vs<br>industry benchmark</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="22">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">lower cart<br>abandonment rate</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="89">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">of users kept<br>carbon offset on</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Lumina — <em>Smart Home</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="project-3.html" class="btn btn-primary">View Case Study →</a>
+        <a href="../index.html#projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="../index.html" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>

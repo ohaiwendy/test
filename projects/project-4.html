@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sage Journal — Aria Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/project.css">
+  <style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #1a0e28 0%, #2e1a42 40%, #1E5433 90%, #2d7a4f 130%);
+    }
+    .sage-screens {
+      display: flex; gap: 1.5rem; justify-content: center; align-items: flex-start; flex-wrap: wrap;
+    }
+    .ss-phone {
+      width: 170px;
+      background: #120c1e;
+      border-radius: 28px;
+      padding: 14px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+    .ss-notch { width: 45px; height: 8px; background: #120c1e; border-radius: 0 0 8px 8px; margin: 0 auto 10px; }
+    .ss-inner { background: #1a0e28; border-radius: 18px; padding: 14px; overflow: hidden; }
+    .ss-date { font-size: 0.45rem; color: rgba(241,229,217,0.4); margin-bottom: 3px; }
+    .ss-heading { font-family: 'Cormorant Garamond', serif; font-size: 0.7rem; color: var(--cream); margin-bottom: 10px; }
+    .ss-moods { display: flex; justify-content: space-around; margin-bottom: 10px; font-size: 0.75rem; }
+    .ss-mood { opacity: 0.35; }
+    .ss-mood--active { opacity: 1; transform: scale(1.15); }
+    .ss-entry {
+      background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; margin-bottom: 8px;
+    }
+    .ss-line { height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; margin-bottom: 5px; }
+    .ss-line-sm { width: 65%; }
+    .ss-line-med { width: 85%; }
+    .ss-cursor { width: 1px; height: 8px; background: #9b7fd4; display: inline-block; animation: blink 1.2s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .ss-insight {
+      background: rgba(155,127,212,0.1); border: 1px solid rgba(155,127,212,0.2);
+      border-radius: 8px; padding: 8px;
+    }
+    .ss-insight-label { font-size: 0.38rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9b7fd4; margin-bottom: 3px; }
+    .ss-insight-text { font-size: 0.44rem; color: var(--cream); line-height: 1.5; }
+
+    .ss-cal { margin-bottom: 8px; }
+    .ss-cal-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+    }
+    .ss-cal-month { font-size: 0.5rem; color: var(--cream); }
+    .ss-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+    .ss-day {
+      aspect-ratio: 1; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.3rem; color: rgba(241,229,217,0.4);
+    }
+    .ss-day--filled { background: rgba(155,127,212,0.2); color: rgba(241,229,217,0.7); }
+    .ss-day--high { background: rgba(233,180,182,0.3); color: var(--pink); }
+    .ss-day--today { background: #9b7fd4; color: white; font-weight: 700; }
+
+    .ethics-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .ethics-card {
+      background: rgba(155,127,212,0.08);
+      border: 1px solid rgba(155,127,212,0.15);
+      border-radius: var(--radius-sm);
+      padding: 1.8rem;
+    }
+    .ethics-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .ethics-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.5rem; }
+    .ethics-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">AC</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;right:15%;top:25%;font-size:12rem;opacity:0.05;user-select:none;">🌙</div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Mobile App · Mental Health · 2023</div>
+      <h1 data-animate>Sage Journal</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        An AI-powered journaling app that helps users understand their emotional patterns, recognise triggers, and build genuine resilience.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">Lead UX Designer</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">16 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Maze, Lottie, Principle</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">iOS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Journaling apps that don't understand emotions</h2>
+          <p style="margin-top:1.2rem;">Mental health apps often take one of two approaches: clinical (cold CBT worksheets) or superficial (generic affirmations). Neither truly helps users understand themselves. The most valuable insight — pattern recognition across time — was either completely absent or buried in data visualisations users couldn't interpret.</p>
+          <p>Sage was designed to be something more: a companion that reads between the lines, surfaces insights gently, and helps users make sense of their emotional lives without doing the therapeutic work for them.</p>
+          <div class="callout">
+            <p>"How do we use AI to help people feel more human, not less?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Design Challenges</div>
+            <ul class="aside-list">
+              <li>Safe, non-clinical tone of voice</li>
+              <li>AI transparency without complexity</li>
+              <li>Privacy-first architecture</li>
+              <li>Trauma-informed design principles</li>
+              <li>Accessibility for vulnerable users</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Collaborators</div>
+            <ul class="aside-list">
+              <li>Clinical psychologist advisor</li>
+              <li>AI/NLP engineering team</li>
+              <li>Content & ethics review board</li>
+              <li>Trauma-informed UX consultant</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Ethics First</div>
+        <h2>Designing for <em>vulnerability</em></h2>
+      </div>
+      <p data-animate>Before a single wireframe was drawn, I spent four weeks working with a clinical psychologist and an ethics board to establish design principles for a mental health app. This was not typical UX research — it was a fundamental rethinking of what responsible design means when users are at their most vulnerable.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="ethics-grid">
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">🛡</div>
+          <div class="ethics-title">Privacy by default</div>
+          <p class="ethics-text">All entries encrypted on-device. AI processing occurs locally when possible. No user data used for model training without explicit, informed consent.</p>
+        </div>
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">🌱</div>
+          <div class="ethics-title">No gamification of wellbeing</div>
+          <p class="ethics-text">No streaks, no leaderboards, no "you missed 3 days!" notifications. Mental health is not a game. Consistency is encouraged gently, never enforced.</p>
+        </div>
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">🤲</div>
+          <div class="ethics-title">Always offer support</div>
+          <p class="ethics-text">Any entry containing distress signals (validated NLP triggers) presents a gentle check-in and access to crisis resources — without alarming the user.</p>
+        </div>
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">💡</div>
+          <div class="ethics-title">Transparent AI</div>
+          <p class="ethics-text">AI insights are clearly labelled, always optional, and framed as observations — never diagnoses. "It seems like..." not "You are...".</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Design</div>
+        <h2>Warmth in every pixel</h2>
+      </div>
+      <p data-animate>The visual design needed to feel like a warm, dimly lit room — safe, private, unhurried. I moved away from the bright whites and sharp contrasts typical of productivity apps, choosing instead deep purples, warm creams, and gentle amber accents.</p>
+      <p data-animate style="margin-top:1rem;">Typography choices leaned into editoriality — Cormorant Garamond for headings giving the journal a handwritten quality without being decorative to the point of illegibility. Generous line heights and white space created room to breathe.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate style="background:#120c1e;">
+        <div class="sage-screens">
+          <div class="ss-phone">
+            <div class="ss-notch"></div>
+            <div class="ss-inner">
+              <div class="ss-date">Wednesday, March 4 · 9:41 PM</div>
+              <div class="ss-heading">How are you feeling tonight?</div>
+              <div class="ss-moods">
+                <div class="ss-mood">😔</div>
+                <div class="ss-mood">😐</div>
+                <div class="ss-mood ss-mood--active">😌</div>
+                <div class="ss-mood">😊</div>
+                <div class="ss-mood">🤗</div>
+              </div>
+              <div class="ss-entry">
+                <div class="ss-line"></div>
+                <div class="ss-line ss-line-sm"></div>
+                <div class="ss-line ss-line-med"></div>
+                <div class="ss-line" style="width:40%"></div>
+                <span class="ss-cursor"></span>
+              </div>
+              <div class="ss-insight">
+                <div class="ss-insight-label">✨ Sage Insight</div>
+                <div class="ss-insight-text">You've felt calm on 5 evenings this week — more than any week this month.</div>
+              </div>
+            </div>
+          </div>
+          <div class="ss-phone" style="margin-top:30px;">
+            <div class="ss-notch"></div>
+            <div class="ss-inner">
+              <div class="ss-date">Your Month</div>
+              <div class="ss-cal">
+                <div class="ss-cal-header">
+                  <span class="ss-cal-month">March 2024</span>
+                </div>
+                <div class="ss-cal-grid">
+                  <div class="ss-day">S</div><div class="ss-day">M</div><div class="ss-day">T</div>
+                  <div class="ss-day">W</div><div class="ss-day">T</div><div class="ss-day">F</div><div class="ss-day">S</div>
+                  <div class="ss-day ss-day--filled">1</div>
+                  <div class="ss-day ss-day--filled">2</div>
+                  <div class="ss-day ss-day--high">3</div>
+                  <div class="ss-day ss-day--today">4</div>
+                  <div class="ss-day">5</div>
+                  <div class="ss-day">6</div>
+                  <div class="ss-day">7</div>
+                  <div class="ss-day ss-day--filled">8</div>
+                  <div class="ss-day ss-day--high">9</div>
+                  <div class="ss-day ss-day--filled">10</div>
+                  <div class="ss-day ss-day--filled">11</div>
+                  <div class="ss-day">12</div>
+                  <div class="ss-day ss-day--filled">13</div>
+                  <div class="ss-day ss-day--filled">14</div>
+                </div>
+              </div>
+              <div style="background:rgba(155,127,212,0.08);border-radius:8px;padding:8px;margin-bottom:6px;">
+                <div style="font-size:0.42rem;color:#9b7fd4;margin-bottom:3px;">Top emotion this month</div>
+                <div style="font-size:0.6rem;color:var(--cream);">Calm · 9 days</div>
+              </div>
+              <div style="display:flex;gap:4px;">
+                <div style="flex:1;height:25px;background:rgba(155,127,212,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:#9b7fd4;">14 entries</div>
+                <div style="flex:1;height:25px;background:rgba(233,180,182,0.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:var(--pink);">5 insights</div>
+              </div>
+            </div>
+          </div>
+          <div class="ss-phone">
+            <div class="ss-notch"></div>
+            <div class="ss-inner">
+              <div class="ss-date">Pattern Discovered</div>
+              <div style="background:rgba(155,127,212,0.15);border-radius:10px;padding:10px;margin-bottom:8px;">
+                <div style="font-size:0.55rem;color:#c4a8f0;font-family:'Cormorant Garamond',serif;margin-bottom:6px;font-style:italic;">It seems like...</div>
+                <div style="font-size:0.5rem;color:var(--cream);line-height:1.6;">Your mood on Mondays is consistently lower than other days. This has appeared 3 weeks in a row.</div>
+              </div>
+              <div style="font-size:0.42rem;color:var(--text-muted);margin-bottom:8px;">Based on 12 entries · AI observation, not diagnosis</div>
+              <div style="display:flex;gap:4px;">
+                <div style="flex:1;padding:6px;background:rgba(155,127,212,0.2);border-radius:8px;text-align:center;font-size:0.42rem;color:#c4a8f0;">Explore →</div>
+                <div style="flex:1;padding:6px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:0.42rem;color:var(--text-muted);">Dismiss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — Testing</div>
+        <h2>Getting feedback on <em>sensitive ground</em></h2>
+      </div>
+      <p data-animate>Usability testing a mental health app requires careful handling. I partnered with a clinical psychologist for all test sessions and implemented a comprehensive debrief protocol. Participants were screened to ensure they weren't in crisis, and all sessions included an emotional check-in at the end.</p>
+      <p data-animate style="margin-top:1rem;">We ran 5 rounds of testing with 8 participants each, focusing on three core flows: entry creation, insight review, and crisis support discovery. The biggest learning: users wanted even more transparency about how the AI worked, not less.</p>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Results</div>
+        <h2>Metrics that matter</h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="82">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">Day-60 retention<br>(vs 34% industry avg)</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="91">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">felt AI insights<br>were trustworthy</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="4">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">.9★</span>
+          <span class="result-label">App Store rating<br>after launch</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"For the first time in years, I feel like I actually understand my own patterns. Sage helped me see what I couldn't see myself." — User review</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Terra — <em>Environmental Platform</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="project-5.html" class="btn btn-primary">View Case Study →</a>
+        <a href="../index.html#projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="../index.html" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>

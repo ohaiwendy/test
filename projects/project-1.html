@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloom Health — Aria Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/project.css">
+  <style>
+    .proj-hero-bg { background: linear-gradient(135deg, #0d1f10 0%, #1C3D22 40%, #2a5c35 70%, #E9B4B6 200%); }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(233,180,182,0.25), transparent 65%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .orb-1 { width: 500px; height: 500px; top: -100px; right: -100px; }
+    .orb-2 { width: 300px; height: 300px; bottom: 50px; left: 100px; animation-delay: 2s; }
+    @keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+
+    /* Mock screens */
+    .bloom-screens {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .bscreen {
+      background: #0a1f0d;
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      width: 180px;
+    }
+    .bscreen--tall { transform: translateY(-20px); width: 200px; }
+    .bscreen-inner { background: #0f2a12; border-radius: 18px; padding: 16px; overflow: hidden; }
+    .bscreen-notch {
+      width: 50px; height: 10px;
+      background: #0a1f0d;
+      border-radius: 0 0 10px 10px;
+      margin: 0 auto 12px;
+    }
+    .bs-header { font-size: 0.65rem; color: rgba(241,229,217,0.5); margin-bottom: 12px; }
+    .bs-big-ring {
+      display: flex; justify-content: center; margin-bottom: 12px;
+    }
+    .bs-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+    .bs-tab {
+      padding: 4px 8px; border-radius: 20px; font-size: 0.45rem;
+      background: rgba(255,255,255,0.05); color: rgba(241,229,217,0.5);
+    }
+    .bs-tab--active { background: rgba(233,180,182,0.25); color: var(--pink); }
+    .bs-list { display: flex; flex-direction: column; gap: 6px; }
+    .bs-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px; background: rgba(255,255,255,0.04); border-radius: 8px;
+    }
+    .bs-icon { font-size: 0.7rem; }
+    .bs-text { flex: 1; }
+    .bs-name { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-bottom: 3px; width: 60px; }
+    .bs-prog-wrap { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+    .bs-prog { height: 3px; background: var(--pink); border-radius: 2px; }
+
+    .wf-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .wf-frame {
+      background: rgba(30,84,51,0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      aspect-ratio: 9/16;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 0.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .wf-label {
+      font-size: 0.65rem;
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: absolute;
+      bottom: 0.7rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .wf-line { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .wf-line--short { width: 60%; }
+    .wf-circle { width: 50px; height: 50px; border-radius: 50%; background: rgba(233,180,182,0.15); margin: 4px auto; }
+    .wf-rect { height: 20px; background: rgba(255,255,255,0.06); border-radius: 4px; }
+    .wf-rect-sm { height: 12px; background: rgba(255,255,255,0.06); border-radius: 4px; }
+    .wf-btn { height: 14px; background: rgba(233,180,182,0.2); border-radius: 20px; width: 70%; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">AC</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Mobile App · Health & Wellness · 2023</div>
+      <h1 data-animate>Bloom Health</h1>
+      <p style="max-width:560px; font-size:1.2rem; margin-top:1.2rem; color:rgba(241,229,217,0.85);" data-animate>
+        A gamified wellness tracking app that makes healthy habits feel effortless, rewarding, and genuinely human.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">Lead UX/UI Designer</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">14 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Maze, Miro, Lottie</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">iOS & Android</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section style="padding:5rem 0; background: var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Health apps that feel like homework</h2>
+          <p style="margin-top:1.2rem;">
+            Most wellness apps are either too clinical — cold dashboards packed with numbers — or too gamified in ways that feel hollow and patronising. Users start with enthusiasm and abandon the app within two weeks.
+          </p>
+          <p>
+            Bloom's goal was different: create an app that felt like a supportive friend, not a fitness tracker. One that celebrated progress without shaming setbacks.
+          </p>
+          <div class="callout">
+            <p>"How do we make people feel good about their health journey, even on the days they fall short?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Deliverables</div>
+            <ul class="aside-list">
+              <li>User research synthesis</li>
+              <li>Persona development</li>
+              <li>Information architecture</li>
+              <li>Low & high fidelity wireframes</li>
+              <li>Interactive prototype</li>
+              <li>Design system components</li>
+              <li>Usability test reports</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Team</div>
+            <ul class="aside-list">
+              <li>1 Lead Designer (me)</li>
+              <li>2 Product Managers</li>
+              <li>4 Engineers</li>
+              <li>1 Content Strategist</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Discover</div>
+        <h2>Understanding the <em>real</em> story</h2>
+      </div>
+      <p data-animate>I conducted 18 user interviews over two weeks, targeting people who had downloaded and abandoned at least two health apps in the past year. I also ran a diary study with 8 participants for 10 days to capture real-time emotional responses to habit tracking.</p>
+      <p data-animate style="margin-top:1rem;">Alongside user research, I audited 12 competitor apps across health, fitness, and mindfulness categories — mapping their onboarding flows, notification strategies, and reward mechanics.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="content-3col">
+        <div class="insight-card" data-animate>
+          <h4>😩 Guilt spirals</h4>
+          <p>14 of 18 participants reported feeling guilty or embarrassed when they missed days, often leading to full abandonment rather than resumption.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🎯 Goal overload</h4>
+          <p>Users set 6–10 goals simultaneously at onboarding. Apps with more than 3 active habits had 3× higher drop-off rates within week one.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>💬 Missing context</h4>
+          <p>Users wanted to understand "why" behind recommendations — not just what to do, but the reasoning that made it meaningful to their life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEFINE -->
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Define</div>
+        <h2>Who we're designing for</h2>
+      </div>
+      <p data-animate>Research data crystallised into two primary personas that guided every subsequent design decision:</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="content-2col">
+        <div class="insight-card" data-animate>
+          <h4>Maya, 28 — The Restart Loop</h4>
+          <p>A marketing manager who re-downloads health apps every few months with high motivation, then burns out when life gets busy. She needs flexibility and encouragement, not streaks.</p>
+          <p style="margin-top:0.8rem;"><em>"I know what I should be doing. I just need something that doesn't make me feel terrible when I don't."</em></p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>James, 34 — The Data Skeptic</h4>
+          <p>A software engineer who tracks metrics obsessively but struggles to translate numbers into feeling better. He needs apps to help him connect data to lived experience.</p>
+          <p style="margin-top:0.8rem;"><em>"I've got years of step data and absolutely no idea if it means anything."</em></p>
+        </div>
+      </div>
+      <div class="container--narrow" style="padding:0;">
+        <p data-animate style="margin-top:2rem;">From these personas, I defined the core design principles that would guide Bloom:</p>
+        <div class="step-list" style="margin-top:1.5rem;">
+          <div class="step-item" data-animate>
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Progress over perfection</h4>
+              <p>Celebrate any positive action, no matter how small. Remove streaks that penalise rest.</p>
+            </div>
+          </div>
+          <div class="step-item" data-animate>
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Start small, grow gradually</h4>
+              <p>Onboard with one habit. Unlock new goals naturally as the user builds confidence.</p>
+            </div>
+          </div>
+          <div class="step-item" data-animate>
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>Context, not commands</h4>
+              <p>Every recommendation includes the "why" — grounded in the user's own patterns.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WIREFRAMES -->
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — Design</div>
+        <h2>From sketches to <em>structure</em></h2>
+      </div>
+      <p data-animate>I mapped the information architecture first, then moved into lo-fi wireframes — 40+ screens exploring different approaches to the home dashboard, habit logging, and progress visualisation. I tested three distinct home screen concepts with 12 participants before moving to high-fidelity.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark" data-animate>
+        <div class="wf-grid">
+          <div class="wf-frame">
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-circle"></div>
+            <div class="wf-line"></div>
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-label">Home v1</div>
+          </div>
+          <div class="wf-frame">
+            <div class="wf-line"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-btn"></div>
+            <div class="wf-label">Home v2</div>
+          </div>
+          <div class="wf-frame">
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-circle" style="width:40px;height:40px;"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-btn"></div>
+            <div class="wf-label">Log Habit</div>
+          </div>
+          <div class="wf-frame">
+            <div class="wf-line"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-label">Progress</div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.82rem; color:var(--text-muted); margin-top:1rem;">Lo-fidelity wireframe explorations — 4 of 40+ screens</p>
+    </div>
+  </section>
+
+  <!-- FINAL DESIGN -->
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Final Design</div>
+        <h2>The app that felt like a <em>friend</em></h2>
+      </div>
+      <p data-animate>The final design embraces warm typography, gentle micro-animations, and a colour palette drawn from nature — deep greens and blush pinks that feel nurturing rather than clinical. The signature ring progress indicator became the emotional heart of the app.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="bloom-screens">
+          <div class="bscreen">
+            <div class="bscreen-notch"></div>
+            <div class="bscreen-inner">
+              <div class="bs-header">Good morning, Maya ✨</div>
+              <div class="bs-tabs">
+                <div class="bs-tab bs-tab--active">Today</div>
+                <div class="bs-tab">Week</div>
+                <div class="bs-tab">Month</div>
+              </div>
+              <div class="bs-big-ring">
+                <svg viewBox="0 0 100 100" width="80">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(30,84,51,0.8)" stroke-width="7"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#E9B4B6" stroke-width="7"
+                    stroke-dasharray="264" stroke-dashoffset="66" stroke-linecap="round"
+                    transform="rotate(-90 50 50)"/>
+                  <text x="50" y="47" text-anchor="middle" font-size="14" fill="#F1E5D9" font-weight="600">75%</text>
+                  <text x="50" y="60" text-anchor="middle" font-size="7" fill="rgba(241,229,217,0.6)">Daily Goal</text>
+                </svg>
+              </div>
+              <div class="bs-list">
+                <div class="bs-item">
+                  <div class="bs-icon">💧</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div class="bs-prog-wrap"><div class="bs-prog" style="width:75%"></div></div>
+                  </div>
+                </div>
+                <div class="bs-item">
+                  <div class="bs-icon">🏃</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div class="bs-prog-wrap"><div class="bs-prog" style="width:55%;background:rgba(241,229,217,0.5)"></div></div>
+                  </div>
+                </div>
+                <div class="bs-item">
+                  <div class="bs-icon">😴</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div class="bs-prog-wrap"><div class="bs-prog" style="width:90%"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bscreen bscreen--tall">
+            <div class="bscreen-notch"></div>
+            <div class="bscreen-inner">
+              <div class="bs-header" style="font-size:0.7rem;color:var(--pink);">You're on a roll 🌱</div>
+              <div style="font-size:0.5rem;color:rgba(241,229,217,0.5);margin-bottom:10px;">3-day momentum streak</div>
+              <div style="background:rgba(233,180,182,0.1);border-radius:10px;padding:10px;margin-bottom:8px;">
+                <div style="font-size:0.55rem;color:var(--cream);margin-bottom:4px;">This week</div>
+                <div style="display:flex;gap:4px;align-items:flex-end;height:30px;">
+                  <div style="flex:1;background:rgba(30,84,51,0.8);border-radius:2px;height:60%"></div>
+                  <div style="flex:1;background:rgba(233,180,182,0.6);border-radius:2px;height:80%"></div>
+                  <div style="flex:1;background:rgba(233,180,182,0.6);border-radius:2px;height:70%"></div>
+                  <div style="flex:1;background:rgba(233,180,182,0.6);border-radius:2px;height:90%"></div>
+                  <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:2px;height:20%"></div>
+                  <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:2px;height:20%"></div>
+                  <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:2px;height:20%"></div>
+                </div>
+              </div>
+              <div class="bs-list">
+                <div class="bs-item" style="background:rgba(233,180,182,0.1);">
+                  <div class="bs-icon">🎯</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div style="font-size:0.38rem;color:var(--pink);">Achievement unlocked</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bscreen">
+            <div class="bscreen-notch"></div>
+            <div class="bscreen-inner">
+              <div class="bs-header">Log Water</div>
+              <div class="bs-big-ring">
+                <svg viewBox="0 0 100 100" width="70">
+                  <text x="50" y="45" text-anchor="middle" font-size="28" fill="#E9B4B6">💧</text>
+                  <text x="50" y="65" text-anchor="middle" font-size="10" fill="#F1E5D9" font-weight="600">6 / 8</text>
+                  <text x="50" y="78" text-anchor="middle" font-size="7" fill="rgba(241,229,217,0.5)">cups today</text>
+                </svg>
+              </div>
+              <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px;">
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(255,255,255,0.1);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(255,255,255,0.1);border-radius:2px 2px 6px 6px;"></div>
+              </div>
+              <div style="background:rgba(233,180,182,0.2);border-radius:8px;padding:8px;text-align:center;">
+                <div style="font-size:0.5rem;color:var(--pink);">+ Add a cup</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">05 — Impact</div>
+        <h2>Numbers that tell the story</h2>
+      </div>
+      <p data-animate>After a 6-week beta launch with 1,200 users, Bloom demonstrated measurable improvements across every key retention and engagement metric compared to the previous version.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="67">0</span>
+          <span class="result-label">% increase in<br>Day-30 retention</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="4">0</span>
+          <span class="result-label">Average app sessions<br>per day per user</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="92">0</span>
+          <span class="result-label">% user satisfaction<br>score (SUS)</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"This is the first health app that doesn't make me feel bad about myself. I've used it every day for six weeks." — Beta user, 28</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT PROJECT CTA -->
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Verdant — <em>Sustainable Fashion</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="project-2.html" class="btn btn-primary">View Case Study →</a>
+        <a href="../index.html#projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="../index.html" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>

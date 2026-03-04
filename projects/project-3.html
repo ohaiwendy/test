@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina — Aria Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/project.css">
+  <style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #0a1420 0%, #1a2a3e 40%, #1E5433 80%, #2d7a4f 120%);
+    }
+    .lumina-demo {
+      display: flex; justify-content: center;
+    }
+    .ld-tablet {
+      width: 580px;
+      background: #0a1520;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .ld-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; padding: 0 4px;
+    }
+    .ld-bar-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .ld-bar-time { font-size: 0.65rem; color: var(--pink); }
+    .ld-greeting {
+      background: rgba(30,84,51,0.3);
+      border: 1px solid rgba(233,180,182,0.15);
+      border-radius: 12px; padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
+    }
+    .ld-greeting-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--cream); }
+    .ld-greeting-text p { font-size: 0.5rem; color: var(--text-muted); margin-top: 2px; }
+    .ld-scene-btn {
+      display: flex; gap: 5px;
+    }
+    .ld-scene {
+      padding: 5px 10px; border-radius: 20px; font-size: 0.45rem;
+      background: rgba(255,255,255,0.06); color: rgba(241,229,217,0.6);
+      cursor: default;
+    }
+    .ld-scene--active { background: rgba(233,180,182,0.2); color: var(--pink); }
+    .ld-main-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px;
+    }
+    .ld-tile {
+      border-radius: 12px;
+      padding: 14px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; flex-direction: column; gap: 4px;
+      cursor: default;
+    }
+    .ld-tile--on {
+      background: rgba(233,180,182,0.12);
+      border-color: rgba(233,180,182,0.2);
+    }
+    .ld-tile--large { grid-column: span 2; }
+    .ld-tile-icon { font-size: 1.1rem; margin-bottom: 2px; }
+    .ld-tile-room { font-size: 0.45rem; color: var(--text-muted); }
+    .ld-tile-status { font-size: 0.5rem; color: var(--cream); font-weight: 500; }
+    .ld-tile-sub { font-size: 0.38rem; color: var(--text-muted); }
+    .ld-toggle {
+      display: flex; align-items: center; gap: 4px; margin-top: 4px;
+    }
+    .ld-toggle-track {
+      width: 22px; height: 12px;
+      border-radius: 6px; background: rgba(255,255,255,0.1);
+      position: relative;
+    }
+    .ld-toggle-track--on { background: rgba(233,180,182,0.6); }
+    .ld-toggle-knob {
+      position: absolute; top: 2px;
+      width: 8px; height: 8px;
+      border-radius: 50%; background: white;
+      left: 2px; transition: left 0.3s;
+    }
+    .ld-toggle-track--on .ld-toggle-knob { left: 12px; }
+    .ld-energy {
+      background: rgba(30,84,51,0.2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px; margin-bottom: 12px;
+    }
+    .ld-energy-title { font-size: 0.5rem; color: var(--text-muted); margin-bottom: 8px; }
+    .ld-energy-bars { display: flex; gap: 4px; align-items: flex-end; height: 35px; }
+    .ld-energy-bar { flex:1; border-radius: 2px 2px 0 0; background: rgba(30,84,51,0.8); }
+    .ld-energy-bar--now { background: rgba(233,180,182,0.6); }
+    .ld-bottom { display: flex; gap: 8px; }
+    .ld-bottom-card {
+      flex: 1; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 12px; padding: 10px;
+    }
+    .ld-bottom-label { font-size: 0.42rem; color: var(--text-muted); margin-bottom: 4px; }
+    .ld-bottom-val { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--pink); }
+
+    .complexity-chart {
+      display: flex; gap: 3rem; align-items: center; justify-content: center; padding: 2rem;
+    }
+    .cc-before, .cc-after {
+      text-align: center; flex: 1;
+    }
+    .cc-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-muted); margin-bottom: 1rem;
+    }
+    .cc-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .cc-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; max-width: 120px; margin: 0 auto; }
+    .cc-arrow {
+      font-size: 1.5rem; color: var(--pink); flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">AC</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(30,84,51,0.4),transparent 70%);top:-100px;right:-80px;"></div>
+        <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(233,180,182,0.15),transparent 70%);bottom:20%;left:15%;"></div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Dashboard · Smart Home · 2022</div>
+      <h1 data-animate>Lumina</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        A smart home control dashboard that simplifies the complexity of connected living into a single, beautiful interface.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">UX/UI Designer</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">20 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Principle, ProtoPie</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">iPad & Web</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Problem</div>
+          <h2>Brilliant technology, terrible experience</h2>
+          <p style="margin-top:1.2rem;">Smart home technology has reached mainstream adoption — but the apps controlling it haven't kept pace. Users with 10+ devices navigate 4–6 different manufacturer apps, each with its own logic and interface. The promise of a "smart home" ironically makes life more complicated.</p>
+          <p>Lumina was commissioned to be the unified layer: one interface to control everything. The design challenge was as much about information architecture as it was visual design.</p>
+          <div class="callout">
+            <p>"How do we take 20+ smart devices and make them feel like one seamless home?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">The Challenge</div>
+            <ul class="aside-list">
+              <li>12+ device categories to unify</li>
+              <li>Real-time status across all devices</li>
+              <li>Scene & automation management</li>
+              <li>Energy monitoring integration</li>
+              <li>Voice control companion design</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Key Metrics</div>
+            <ul class="aside-list">
+              <li>Task completion: 94% success rate</li>
+              <li>Time-on-task reduced by 58%</li>
+              <li>SUS score: 88/100</li>
+              <li>NPS: +62</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Research</div>
+        <h2>Mapping the chaos</h2>
+      </div>
+      <p data-animate>I spent the first three weeks deeply embedded in the problem: living with participants in their smart homes, shadowing their daily routines, and logging every friction point. I also conducted 24 remote interviews with smart home enthusiasts and casual users.</p>
+      <p data-animate style="margin-top:1rem;">Contextual inquiry revealed that the real problem wasn't just too many apps — it was a lack of mental model. Users couldn't picture what their home's "state" was at any given moment. The solution needed to create a coherent mental model, not just a pretty dashboard.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="visual-block" data-animate>
+        <div class="complexity-chart">
+          <div class="cc-before">
+            <div class="cc-label">Before Lumina</div>
+            <div class="cc-icon">😵</div>
+            <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:1rem 0;">
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Philips App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Nest App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Ring App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">LIFX App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Samsung App</div>
+            </div>
+            <div class="cc-desc">5 apps · inconsistent UX · no overview · context switching</div>
+          </div>
+          <div class="cc-arrow">→</div>
+          <div class="cc-after">
+            <div class="cc-label">After Lumina</div>
+            <div class="cc-icon">🏠</div>
+            <div style="padding:8px 16px;background:rgba(233,180,182,0.15);border:1px solid rgba(233,180,182,0.3);border-radius:8px;margin:1rem auto;width:fit-content;">
+              <div style="font-size:0.65rem;color:var(--pink);">Lumina</div>
+            </div>
+            <div class="cc-desc">1 app · unified interface · home overview · intelligent scenes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Architecture</div>
+        <h2>Organising by <em>place, not product</em></h2>
+      </div>
+      <p data-animate>The key insight from research: users think about their home in rooms and activities, not device categories. Reorganising the IA around spaces (Living Room, Bedroom, Kitchen) rather than device types (Lights, Locks, Cameras) reduced cognitive load dramatically.</p>
+      <p data-animate style="margin-top:1rem;">I introduced "Scenes" — one-tap presets that configure multiple devices simultaneously for common scenarios (Morning, Movie Night, Away). Testing showed scenes became the most-used feature within the first week of use.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="lumina-demo">
+          <div class="ld-tablet">
+            <div class="ld-bar">
+              <div class="ld-bar-title">Good Evening, Aria</div>
+              <div class="ld-bar-time">8:47 PM · Tuesday</div>
+            </div>
+            <div class="ld-greeting">
+              <div class="ld-greeting-text">
+                <h3>All systems normal</h3>
+                <p>3 lights on · Security armed · 21°C inside</p>
+              </div>
+              <div class="ld-scene-btn">
+                <div class="ld-scene">Morning</div>
+                <div class="ld-scene ld-scene--active">Evening</div>
+                <div class="ld-scene">Movie</div>
+                <div class="ld-scene">Away</div>
+              </div>
+            </div>
+            <div class="ld-main-grid">
+              <div class="ld-tile ld-tile--on">
+                <div class="ld-tile-icon">💡</div>
+                <div class="ld-tile-room">Living Room</div>
+                <div class="ld-tile-status">On · 60%</div>
+                <div class="ld-toggle">
+                  <div class="ld-toggle-track ld-toggle-track--on"><div class="ld-toggle-knob"></div></div>
+                </div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">🌡</div>
+                <div class="ld-tile-room">Thermostat</div>
+                <div class="ld-tile-status">21°C</div>
+                <div class="ld-tile-sub">Target: 22°C</div>
+              </div>
+              <div class="ld-tile ld-tile--on">
+                <div class="ld-tile-icon">🔒</div>
+                <div class="ld-tile-room">Front Door</div>
+                <div class="ld-tile-status">Locked</div>
+                <div class="ld-tile-sub">Last: 6:12 PM</div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">📷</div>
+                <div class="ld-tile-room">Driveway</div>
+                <div class="ld-tile-status">Active</div>
+                <div class="ld-tile-sub">No motion</div>
+              </div>
+              <div class="ld-tile ld-tile--on ld-tile--large">
+                <div class="ld-tile-icon">🎵</div>
+                <div class="ld-tile-room">Sonos · Kitchen</div>
+                <div class="ld-tile-status">Playing</div>
+                <div class="ld-tile-sub">Jazz & Chill Playlist · Vol 45%</div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">💡</div>
+                <div class="ld-tile-room">Bedroom</div>
+                <div class="ld-tile-status">Off</div>
+                <div class="ld-toggle">
+                  <div class="ld-toggle-track"><div class="ld-toggle-knob"></div></div>
+                </div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">🚿</div>
+                <div class="ld-tile-room">Bathroom</div>
+                <div class="ld-tile-status">Off</div>
+                <div class="ld-toggle">
+                  <div class="ld-toggle-track"><div class="ld-toggle-knob"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ld-energy">
+              <div class="ld-energy-title">Energy Usage Today · 8.2 kWh</div>
+              <div class="ld-energy-bars">
+                <div class="ld-energy-bar" style="height:30%"></div>
+                <div class="ld-energy-bar" style="height:45%"></div>
+                <div class="ld-energy-bar" style="height:60%"></div>
+                <div class="ld-energy-bar" style="height:80%"></div>
+                <div class="ld-energy-bar" style="height:55%"></div>
+                <div class="ld-energy-bar ld-energy-bar--now" style="height:70%"></div>
+                <div class="ld-energy-bar" style="height:20%;opacity:0.3"></div>
+              </div>
+            </div>
+            <div class="ld-bottom">
+              <div class="ld-bottom-card">
+                <div class="ld-bottom-label">Today vs Yesterday</div>
+                <div class="ld-bottom-val">−12%</div>
+              </div>
+              <div class="ld-bottom-card">
+                <div class="ld-bottom-label">Active Devices</div>
+                <div class="ld-bottom-val">5 / 14</div>
+              </div>
+              <div class="ld-bottom-card">
+                <div class="ld-bottom-label">Security</div>
+                <div class="ld-bottom-val" style="color:rgba(100,200,100,0.8);">Armed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — Results</div>
+        <h2>From chaos to <em>clarity</em></h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="58">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">reduction in time<br>to complete tasks</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="94">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">task completion<br>success rate</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="62">0</span>
+          <span class="result-label">Net Promoter<br>Score</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"I actually enjoy using my smart home now. Before Lumina, I'd given up trying to use half the features." — Beta user, 41</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Sage Journal — <em>Mental Health</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="project-4.html" class="btn btn-primary">View Case Study →</a>
+        <a href="../index.html#projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="../index.html" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>

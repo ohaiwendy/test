@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aria Chen — UI/UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <a href="#hero" class="nav-logo">AC</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#projects" class="nav-link">Work</a></li>
+      <li><a href="#process" class="nav-link">Process</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ======== HERO ======== -->
+  <section class="hero" id="hero">
+    <div class="hero-shapes">
+      <div class="shape shape-circle-lg"></div>
+      <div class="shape shape-circle-sm"></div>
+      <div class="shape shape-blob"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow reveal-up">UI/UX Designer · San Francisco</p>
+      <h1 class="hero-title">
+        <span class="hero-line reveal-up" style="--delay:0.1s">Crafting</span>
+        <span class="hero-line hero-line--accent reveal-up" style="--delay:0.2s"><em>meaningful</em></span>
+        <span class="hero-line reveal-up" style="--delay:0.3s">experiences</span>
+      </h1>
+      <p class="hero-sub reveal-up" style="--delay:0.45s">I design digital products that feel intuitive, look beautiful, and make a real difference for the people who use them.</p>
+      <div class="hero-cta reveal-up" style="--delay:0.55s">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#about" class="btn btn-ghost">About Me</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal-up" style="--delay:0.3s">
+      <div class="hero-card card-1">
+        <div class="hcard-dot"></div>
+        <span>User Research</span>
+      </div>
+      <div class="hero-card card-2">
+        <div class="hcard-dot"></div>
+        <span>Prototyping</span>
+      </div>
+      <div class="hero-card card-3">
+        <div class="hcard-dot"></div>
+        <span>Visual Design</span>
+      </div>
+      <div class="hero-avatar">
+        <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="avatarClip">
+              <ellipse cx="160" cy="190" rx="140" ry="170"/>
+            </clipPath>
+          </defs>
+          <ellipse cx="160" cy="190" rx="140" ry="170" fill="#1E5433"/>
+          <g clip-path="url(#avatarClip)">
+            <!-- Hair -->
+            <ellipse cx="160" cy="130" rx="75" ry="85" fill="#1C3D22"/>
+            <rect x="85" y="170" width="150" height="50" fill="#1C3D22"/>
+            <!-- Face -->
+            <ellipse cx="160" cy="160" rx="60" ry="68" fill="#F1E5D9" opacity="0.95"/>
+            <!-- Eyes -->
+            <ellipse cx="142" cy="152" rx="7" ry="8" fill="#1C3D22"/>
+            <ellipse cx="178" cy="152" rx="7" ry="8" fill="#1C3D22"/>
+            <circle cx="144" cy="150" r="2.5" fill="#fff" opacity="0.6"/>
+            <circle cx="180" cy="150" r="2.5" fill="#fff" opacity="0.6"/>
+            <!-- Brows -->
+            <path d="M133 140 Q142 136 151 140" stroke="#1C3D22" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M169 140 Q178 136 187 140" stroke="#1C3D22" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Nose -->
+            <path d="M160 158 Q157 168 155 172 Q160 175 165 172 Q163 168 160 158" fill="#1C3D22" opacity="0.2"/>
+            <!-- Smile -->
+            <path d="M146 178 Q160 190 174 178" stroke="#1C3D22" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Cheeks -->
+            <ellipse cx="131" cy="170" rx="14" ry="8" fill="#E9B4B6" opacity="0.4"/>
+            <ellipse cx="189" cy="170" rx="14" ry="8" fill="#E9B4B6" opacity="0.4"/>
+            <!-- Body -->
+            <rect x="95" y="225" width="130" height="160" rx="15" fill="#E9B4B6" opacity="0.8"/>
+            <!-- Collar -->
+            <path d="M130 225 L160 260 L190 225" fill="#F1E5D9" opacity="0.7"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ======== MARQUEE ======== -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>User Research</span><span class="sep">✦</span>
+      <span>Wireframing</span><span class="sep">✦</span>
+      <span>Prototyping</span><span class="sep">✦</span>
+      <span>Design Systems</span><span class="sep">✦</span>
+      <span>Usability Testing</span><span class="sep">✦</span>
+      <span>Visual Design</span><span class="sep">✦</span>
+      <span>Interaction Design</span><span class="sep">✦</span>
+      <span>Information Architecture</span><span class="sep">✦</span>
+      <span>User Research</span><span class="sep">✦</span>
+      <span>Wireframing</span><span class="sep">✦</span>
+      <span>Prototyping</span><span class="sep">✦</span>
+      <span>Design Systems</span><span class="sep">✦</span>
+      <span>Usability Testing</span><span class="sep">✦</span>
+      <span>Visual Design</span><span class="sep">✦</span>
+      <span>Interaction Design</span><span class="sep">✦</span>
+      <span>Information Architecture</span><span class="sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ======== ABOUT ======== -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual" data-animate="fade-right">
+          <div class="about-img-wrap">
+            <div class="about-img-bg"></div>
+            <div class="about-img-frame">
+              <svg viewBox="0 0 360 440" xmlns="http://www.w3.org/2000/svg" width="100%">
+                <rect width="360" height="440" rx="24" fill="#1E5433"/>
+                <!-- Abstract desk scene -->
+                <rect x="30" y="300" width="300" height="120" rx="10" fill="#1C3D22"/>
+                <!-- Monitor -->
+                <rect x="100" y="160" width="160" height="110" rx="8" fill="#0d2414"/>
+                <rect x="120" y="175" width="120" height="80" rx="4" fill="#E9B4B6" opacity="0.15"/>
+                <!-- Screen content lines -->
+                <rect x="128" y="183" width="70" height="6" rx="3" fill="#E9B4B6" opacity="0.5"/>
+                <rect x="128" y="195" width="100" height="4" rx="2" fill="#F1E5D9" opacity="0.3"/>
+                <rect x="128" y="205" width="85" height="4" rx="2" fill="#F1E5D9" opacity="0.3"/>
+                <rect x="128" y="215" width="95" height="4" rx="2" fill="#F1E5D9" opacity="0.3"/>
+                <rect x="128" y="225" width="60" height="4" rx="2" fill="#F1E5D9" opacity="0.3"/>
+                <!-- Monitor stand -->
+                <rect x="168" y="270" width="24" height="25" rx="3" fill="#0d2414"/>
+                <rect x="148" y="293" width="64" height="7" rx="3" fill="#0d2414"/>
+                <!-- Plant -->
+                <rect x="55" y="250" width="18" height="50" rx="4" fill="#0d2414"/>
+                <circle cx="52" cy="240" r="22" fill="#1E5433" opacity="0.8"/>
+                <circle cx="72" cy="230" r="18" fill="#1E5433" opacity="0.9"/>
+                <circle cx="60" cy="218" r="15" fill="#27663f"/>
+                <!-- Coffee -->
+                <ellipse cx="290" cy="295" rx="18" ry="8" fill="#0d2414"/>
+                <rect x="275" y="270" width="30" height="27" rx="5" fill="#1C3D22"/>
+                <path d="M305 278 Q315 278 315 285 Q315 292 305 292" stroke="#E9B4B6" stroke-width="2" fill="none" opacity="0.7"/>
+                <!-- Notebook -->
+                <rect x="200" y="270" width="65" height="48" rx="6" fill="#F1E5D9" opacity="0.8"/>
+                <rect x="207" y="280" width="40" height="3" rx="1.5" fill="#1C3D22" opacity="0.4"/>
+                <rect x="207" y="288" width="45" height="3" rx="1.5" fill="#1C3D22" opacity="0.4"/>
+                <rect x="207" y="296" width="35" height="3" rx="1.5" fill="#1C3D22" opacity="0.4"/>
+                <!-- Figma logo hint -->
+                <circle cx="180" cy="80" r="50" fill="#E9B4B6" opacity="0.2"/>
+                <circle cx="180" cy="80" r="35" fill="#E9B4B6" opacity="0.25"/>
+                <text x="180" y="88" text-anchor="middle" font-family="Georgia" font-size="24" fill="#F1E5D9" opacity="0.8">✦</text>
+              </svg>
+            </div>
+          </div>
+          <div class="about-badge badge-1">
+            <span class="badge-num">5+</span>
+            <span class="badge-label">Years</span>
+          </div>
+          <div class="about-badge badge-2">
+            <span class="badge-num">40+</span>
+            <span class="badge-label">Projects</span>
+          </div>
+        </div>
+
+        <div class="about-content" data-animate="fade-left">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">A designer who <em>listens</em><br>before she designs</h2>
+          <p class="about-text lead-text">Hi, I'm <strong>Aria Chen</strong> — a UI/UX designer with a deep belief that great design starts with great understanding.</p>
+          <p class="about-text">I've spent 5+ years at the intersection of user psychology and visual craft, working with startups and established brands to turn complex problems into experiences that feel effortless.</p>
+          <p class="about-text">When I'm not in Figma, I'm sketching in coffee shops, reading about behavioral design, or hiking trails that remind me why simplicity is everything.</p>
+
+          <div class="tools-grid">
+            <div class="tool-chip">Figma</div>
+            <div class="tool-chip">Adobe XD</div>
+            <div class="tool-chip">Principle</div>
+            <div class="tool-chip">Framer</div>
+            <div class="tool-chip">Miro</div>
+            <div class="tool-chip">Maze</div>
+            <div class="tool-chip">Lottie</div>
+            <div class="tool-chip">Notion</div>
+          </div>
+
+          <div class="about-stats">
+            <div class="stat-item">
+              <span class="stat-n" data-target="5">0</span><span class="stat-plus">+</span>
+              <span class="stat-l">Years Experience</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-n" data-target="40">0</span><span class="stat-plus">+</span>
+              <span class="stat-l">Projects</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-n" data-target="20">0</span><span class="stat-plus">+</span>
+              <span class="stat-l">Happy Clients</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== PROJECTS ======== -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Stories I've helped tell</h2>
+        <p class="section-sub">Each project is a journey — from understanding a real problem to designing its most human solution.</p>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- Card 1 — Bloom (large) -->
+        <article class="pcard pcard--large" data-animate="fade-up">
+          <a href="projects/project-1.html" class="pcard-link">
+            <div class="pcard-img pcard-img--bloom">
+              <div class="mockup-phone">
+                <div class="mockup-phone-notch"></div>
+                <div class="phone-ui bloom-ui">
+                  <div class="bloom-header-bar">
+                    <span class="bloom-greeting">Good morning, Aria</span>
+                    <div class="bloom-avatar-sm"></div>
+                  </div>
+                  <div class="bloom-ring-wrap">
+                    <svg viewBox="0 0 120 120" width="100">
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#1C3D22" stroke-width="8"/>
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#E9B4B6" stroke-width="8"
+                        stroke-dasharray="314" stroke-dashoffset="69" stroke-linecap="round"
+                        transform="rotate(-90 60 60)"/>
+                      <text x="60" y="57" text-anchor="middle" font-size="16" fill="#F1E5D9" font-weight="600">78%</text>
+                      <text x="60" y="72" text-anchor="middle" font-size="9" fill="#F1E5D9" opacity="0.7">Daily Goal</text>
+                    </svg>
+                  </div>
+                  <div class="bloom-tiles">
+                    <div class="btile btile--pink">💧 Water<br><small>6/8 cups</small></div>
+                    <div class="btile btile--cream">🏃 Steps<br><small>4,200</small></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pcard-glow"></div>
+            </div>
+            <div class="pcard-body">
+              <div class="pcard-tags">
+                <span class="ptag">Mobile App</span>
+                <span class="ptag">Health & Wellness</span>
+              </div>
+              <h3 class="pcard-title">Bloom Health</h3>
+              <p class="pcard-desc">A gamified wellness tracking app that makes healthy habits feel effortless and rewarding.</p>
+              <div class="pcard-arrow">→</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 2 — Verdant -->
+        <article class="pcard" data-animate="fade-up" style="--card-delay:0.1s">
+          <a href="projects/project-2.html" class="pcard-link">
+            <div class="pcard-img pcard-img--verdant">
+              <div class="mockup-browser">
+                <div class="browser-chrome">
+                  <div class="bc-dots"><span></span><span></span><span></span></div>
+                  <div class="bc-bar"></div>
+                </div>
+                <div class="browser-content verdant-ui">
+                  <div class="verdant-topbar">
+                    <span class="vt-logo">Verdant</span>
+                    <div class="vt-search"></div>
+                  </div>
+                  <div class="verdant-hero-img"></div>
+                  <div class="verdant-products">
+                    <div class="vprod">
+                      <div class="vprod-img"></div>
+                      <div class="vprod-info">
+                        <div class="vprod-name"></div>
+                        <div class="vprod-badge">🌿 Eco</div>
+                      </div>
+                    </div>
+                    <div class="vprod">
+                      <div class="vprod-img vprod-img--2"></div>
+                      <div class="vprod-info">
+                        <div class="vprod-name"></div>
+                        <div class="vprod-badge">♻️ Recycled</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pcard-body">
+              <div class="pcard-tags">
+                <span class="ptag">E-Commerce</span>
+                <span class="ptag">Sustainability</span>
+              </div>
+              <h3 class="pcard-title">Verdant</h3>
+              <p class="pcard-desc">A sustainable fashion marketplace connecting conscious consumers with ethical brands.</p>
+              <div class="pcard-arrow">→</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 3 — Lumina -->
+        <article class="pcard" data-animate="fade-up" style="--card-delay:0.2s">
+          <a href="projects/project-3.html" class="pcard-link">
+            <div class="pcard-img pcard-img--lumina">
+              <div class="mockup-tablet">
+                <div class="tablet-camera"></div>
+                <div class="tablet-content lumina-ui">
+                  <div class="lumina-topbar">
+                    <span>Home</span>
+                    <span class="lumina-time">9:41</span>
+                  </div>
+                  <div class="lumina-tiles">
+                    <div class="ltile ltile--on">
+                      <div class="ltile-icon">💡</div>
+                      <div class="ltile-label">Living Room</div>
+                      <div class="ltile-status">On · 80%</div>
+                    </div>
+                    <div class="ltile">
+                      <div class="ltile-icon">🌡</div>
+                      <div class="ltile-label">Thermostat</div>
+                      <div class="ltile-status">22°C</div>
+                    </div>
+                    <div class="ltile ltile--on">
+                      <div class="ltile-icon">🔒</div>
+                      <div class="ltile-label">Front Door</div>
+                      <div class="ltile-status">Locked</div>
+                    </div>
+                    <div class="ltile">
+                      <div class="ltile-icon">📷</div>
+                      <div class="ltile-label">Camera</div>
+                      <div class="ltile-status">Active</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pcard-body">
+              <div class="pcard-tags">
+                <span class="ptag">Dashboard</span>
+                <span class="ptag">Smart Home</span>
+              </div>
+              <h3 class="pcard-title">Lumina</h3>
+              <p class="pcard-desc">A smart home dashboard that simplifies the complexity of connected living.</p>
+              <div class="pcard-arrow">→</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 4 — Sage (wide) -->
+        <article class="pcard pcard--wide" data-animate="fade-up" style="--card-delay:0.15s">
+          <a href="projects/project-4.html" class="pcard-link">
+            <div class="pcard-img pcard-img--sage">
+              <div class="mockup-phone mockup-phone--sage">
+                <div class="mockup-phone-notch"></div>
+                <div class="phone-ui sage-ui">
+                  <div class="sage-date">Wednesday, March 4</div>
+                  <div class="sage-prompt">How are you feeling today?</div>
+                  <div class="sage-moods">
+                    <div class="smood">😔</div>
+                    <div class="smood">😐</div>
+                    <div class="smood smood--active">😌</div>
+                    <div class="smood">😊</div>
+                    <div class="smood">😄</div>
+                  </div>
+                  <div class="sage-entry-box">
+                    <div class="seb-line"></div>
+                    <div class="seb-line seb-line--short"></div>
+                    <div class="seb-line seb-line--med"></div>
+                    <div class="seb-cursor"></div>
+                  </div>
+                  <div class="sage-insights">
+                    <div class="insight-label">AI Insight</div>
+                    <div class="insight-text">You've felt calm 5 days this week</div>
+                  </div>
+                </div>
+              </div>
+              <div class="sage-bg-text">SAGE</div>
+            </div>
+            <div class="pcard-body">
+              <div class="pcard-tags">
+                <span class="ptag">Mobile App</span>
+                <span class="ptag">Mental Health</span>
+              </div>
+              <h3 class="pcard-title">Sage Journal</h3>
+              <p class="pcard-desc">An AI-powered journaling app that helps users understand their emotional patterns and build resilience.</p>
+              <div class="pcard-arrow">→</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Card 5 — Terra -->
+        <article class="pcard" data-animate="fade-up" style="--card-delay:0.25s">
+          <a href="projects/project-5.html" class="pcard-link">
+            <div class="pcard-img pcard-img--terra">
+              <div class="mockup-browser mockup-browser--sm">
+                <div class="browser-chrome">
+                  <div class="bc-dots"><span></span><span></span><span></span></div>
+                  <div class="bc-bar"></div>
+                </div>
+                <div class="browser-content terra-ui">
+                  <div class="terra-header">
+                    <span class="terra-logo">Terra</span>
+                    <span class="terra-score">Score: <strong>72</strong></span>
+                  </div>
+                  <div class="terra-chart-wrap">
+                    <div class="terra-chart">
+                      <div class="tbar" style="--h:55%"><span>Food</span></div>
+                      <div class="tbar tbar--hi" style="--h:80%"><span>Travel</span></div>
+                      <div class="tbar" style="--h:40%"><span>Home</span></div>
+                      <div class="tbar" style="--h:65%"><span>Shop</span></div>
+                    </div>
+                  </div>
+                  <div class="terra-tips">
+                    <div class="ttip">🌱 Switch to plant-based 2x/week</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pcard-body">
+              <div class="pcard-tags">
+                <span class="ptag">Web Platform</span>
+                <span class="ptag">Environment</span>
+              </div>
+              <h3 class="pcard-title">Terra</h3>
+              <p class="pcard-desc">A carbon footprint tracker that makes environmental action personal and genuinely actionable.</p>
+              <div class="pcard-arrow">→</div>
+            </div>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== PROCESS ======== -->
+  <section class="process" id="process">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <div class="section-label">How I Think</div>
+        <h2 class="section-title">Design is a <em>conversation</em></h2>
+        <p class="section-sub">My process is iterative, collaborative, and always rooted in real human needs.</p>
+      </div>
+
+      <div class="process-steps">
+        <div class="ps-step" data-animate="fade-up" style="--step-delay:0s">
+          <div class="ps-num">01</div>
+          <div class="ps-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" stroke="#E9B4B6" stroke-width="1.5"/>
+              <circle cx="18" cy="16" r="6" stroke="#F1E5D9" stroke-width="1.5"/>
+              <path d="M12 27 Q18 21 24 27" stroke="#F1E5D9" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+          <h3 class="ps-title">Discover</h3>
+          <p class="ps-text">User interviews, contextual inquiry, competitive analysis. I understand the "why" before touching any design tool.</p>
+        </div>
+        <div class="ps-connector" data-animate="fade-up" style="--step-delay:0.1s"></div>
+        <div class="ps-step" data-animate="fade-up" style="--step-delay:0.15s">
+          <div class="ps-num">02</div>
+          <div class="ps-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" stroke="#E9B4B6" stroke-width="1.5"/>
+              <path d="M11 23L18 11L25 23" stroke="#F1E5D9" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M13.5 19H22.5" stroke="#E9B4B6" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="ps-title">Define</h3>
+          <p class="ps-text">Synthesising research into clear problem statements, personas, and opportunity spaces. Finding signal in the noise.</p>
+        </div>
+        <div class="ps-connector" data-animate="fade-up" style="--step-delay:0.2s"></div>
+        <div class="ps-step" data-animate="fade-up" style="--step-delay:0.25s">
+          <div class="ps-num">03</div>
+          <div class="ps-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" stroke="#E9B4B6" stroke-width="1.5"/>
+              <rect x="11" y="12" width="14" height="12" rx="2" stroke="#F1E5D9" stroke-width="1.5"/>
+              <path d="M14 16H22M14 19H20" stroke="#E9B4B6" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M18 24V28M14 28H22" stroke="#F1E5D9" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="ps-title">Design</h3>
+          <p class="ps-text">From rough sketches to high-fidelity prototypes — iterating quickly, exploring broadly, then refining to the best solution.</p>
+        </div>
+        <div class="ps-connector" data-animate="fade-up" style="--step-delay:0.3s"></div>
+        <div class="ps-step" data-animate="fade-up" style="--step-delay:0.35s">
+          <div class="ps-num">04</div>
+          <div class="ps-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" stroke="#E9B4B6" stroke-width="1.5"/>
+              <path d="M11 18L16 23L25 13" stroke="#F1E5D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="ps-title">Validate</h3>
+          <p class="ps-text">Testing with real users to validate assumptions, uncover usability issues, and refine until the experience truly works.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== QUOTE ======== -->
+  <section class="quote-section">
+    <div class="container">
+      <blockquote class="big-quote" data-animate="fade-up">
+        <span class="bq-mark">"</span>
+        <p class="bq-text">Good design isn't about making things look beautiful.<br>It's about making people feel <em>understood</em>.</p>
+        <cite class="bq-cite">— Aria Chen</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ======== CONTACT ======== -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="section-label" data-animate="fade-up">Get In Touch</div>
+        <h2 class="section-title" data-animate="fade-up">Let's create something<br><em>beautiful</em> together</h2>
+        <p class="contact-text" data-animate="fade-up">Have a project in mind, or just want to talk design? I'd love to hear from you.</p>
+        <div class="contact-cta" data-animate="fade-up">
+          <a href="mailto:aria@ariachendesign.com" class="btn btn-primary btn-lg">Say Hello ✦</a>
+        </div>
+        <div class="contact-links" data-animate="fade-up">
+          <a href="#" class="contact-slink">Dribbble</a>
+          <span class="cl-sep">·</span>
+          <a href="#" class="contact-slink">Behance</a>
+          <span class="cl-sep">·</span>
+          <a href="#" class="contact-slink">LinkedIn</a>
+          <span class="cl-sep">·</span>
+          <a href="#" class="contact-slink">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div class="contact-bg-word" aria-hidden="true">DESIGN</div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="#hero" class="footer-top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

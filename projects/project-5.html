@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terra — Aria Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/project.css">
+  <style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #071a08 0%, #1C3D22 35%, #2d6b34 70%, #3d9040 120%);
+    }
+    .terra-demo {
+      display: flex; gap: 2rem; justify-content: center; align-items: flex-start; flex-wrap: wrap;
+    }
+    .td-browser {
+      width: 520px;
+      background: #0a1a0d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .td-chrome {
+      display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #0d2414;
+    }
+    .td-dots { display: flex; gap: 5px; }
+    .td-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+    .td-url { flex:1; height: 18px; background: rgba(255,255,255,0.06); border-radius: 9px; margin-left: 10px; }
+    .td-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .td-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .td-score-badge {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 12px; background: rgba(233,180,182,0.1);
+      border: 1px solid rgba(233,180,182,0.2); border-radius: 20px;
+    }
+    .td-score-badge span { font-size: 0.55rem; color: var(--text-muted); }
+    .td-score-badge strong { font-size: 0.75rem; color: var(--pink); }
+    .td-body { padding: 16px 20px; }
+    .td-overview { display: flex; gap: 10px; margin-bottom: 16px; }
+    .td-stat {
+      flex:1; padding: 10px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 8px; text-align: center;
+    }
+    .td-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--pink); display: block; }
+    .td-stat-label { font-size: 0.38rem; color: var(--text-muted); }
+    .td-chart-wrap {
+      background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px; margin-bottom: 12px;
+    }
+    .td-chart-header {
+      display: flex; justify-content: space-between; margin-bottom: 10px;
+    }
+    .td-chart-title { font-size: 0.5rem; color: var(--cream); }
+    .td-chart-legend { display: flex; gap: 8px; }
+    .td-legend-item { display: flex; align-items: center; gap: 3px; font-size: 0.38rem; color: var(--text-muted); }
+    .td-legend-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .td-bars {
+      display: flex; gap: 8px; align-items: flex-end; height: 60px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .td-bar-group { flex:1; display: flex; gap: 2px; align-items: flex-end; flex-direction: column; }
+    .td-bar { width: 100%; border-radius: 2px 2px 0 0; }
+    .td-bar--this { background: rgba(233,180,182,0.6); }
+    .td-bar--last { background: rgba(30,84,51,0.8); }
+    .td-bar-label { font-size: 0.3rem; color: var(--text-muted); text-align: center; margin-top: 4px; }
+    .td-tips { display: flex; flex-direction: column; gap: 6px; }
+    .td-tip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px; background: rgba(255,255,255,0.03);
+      border-radius: 8px; border-left: 2px solid rgba(30,84,51,0.8);
+    }
+    .td-tip--hi { border-left-color: rgba(233,180,182,0.6); }
+    .td-tip-icon { font-size: 0.75rem; flex-shrink: 0; }
+    .td-tip-text { font-size: 0.42rem; color: var(--cream); line-height: 1.5; }
+    .td-tip-impact { font-size: 0.35rem; color: var(--text-muted); margin-top: 1px; }
+
+    .framework-visual {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .fv-card {
+      padding: 1.5rem; background: rgba(30,84,51,0.2);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .fv-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .fv-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); margin-bottom: 0.5rem; }
+    .fv-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">AC</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;right:8%;top:20%;font-size:16rem;opacity:0.04;user-select:none;">🌍</div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Web Platform · Environment · 2024</div>
+      <h1 data-animate>Terra</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        A personal carbon footprint tracker that transforms complex environmental data into clear, actionable steps anyone can take.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">UX/UI Lead · Design System</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">22 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Framer, Lookback</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">Web (Mobile-first)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Climate data that causes anxiety instead of action</h2>
+          <p style="margin-top:1.2rem;">Climate change communication has a well-documented problem: the scale of the crisis is so vast that people either disengage (overwhelm) or overestimate their individual impact (guilt without guidance). Existing carbon calculators produced a number — but no meaningful next step.</p>
+          <p>Terra needed to be different: a platform that made environmental action feel personal, manageable, and — crucially — positive. Change through empowerment, not shame.</p>
+          <div class="callout">
+            <p>"How do we make climate action feel personal, not paralysing?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Scope</div>
+            <ul class="aside-list">
+              <li>Carbon footprint calculator</li>
+              <li>Personalised action recommendations</li>
+              <li>Progress tracking over time</li>
+              <li>Community challenges</li>
+              <li>Offset marketplace integration</li>
+              <li>Business API (B2B tier)</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Awards & Recognition</div>
+            <ul class="aside-list">
+              <li>Webby Award nominee 2024</li>
+              <li>UX Design Award — Bronze</li>
+              <li>Featured in FastCompany</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Research</div>
+        <h2>Understanding why people <em>don't</em> act</h2>
+      </div>
+      <p data-animate>I ran a mixed-methods research programme: a survey of 400 participants across age groups, a 3-week diary study with 15 participants tracking their environmental decision-making, and 20 in-depth interviews with both climate-engaged and climate-disengaged people.</p>
+      <p data-animate style="margin-top:1rem;">The central finding was counterintuitive: the people most disengaged were not climate deniers — they were people who cared deeply but felt their actions were pointless compared to corporate and government inaction. The design problem was restoring agency, not building awareness.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="content-3col">
+        <div class="insight-card" data-animate>
+          <h4>😰 Paralysis by scale</h4>
+          <p>73% of climate-aware participants felt personal actions were "meaningless" against systemic issues. This belief was the primary barrier to any action at all.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🔢 Number blindness</h4>
+          <p>"I've avoided carbon calculators because they just make me feel terrible and I don't know what to do next." — 11 of 20 interview participants expressed this sentiment.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🤝 Social proof matters</h4>
+          <p>When participants learned that someone like them had made a specific change, the likelihood of adoption increased by 3–4× compared to reading about abstract impact statistics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Design Framework</div>
+        <h2>Three principles that guided <em>everything</em></h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="framework-visual">
+        <div class="fv-card" data-animate>
+          <div class="fv-icon">🎯</div>
+          <div class="fv-title">Personal, not global</div>
+          <p class="fv-text">Every metric is contextualised to the user's life. "Your travel footprint is 2× higher than similar people in your city" hits harder than abstract CO₂ numbers.</p>
+        </div>
+        <div class="fv-card" data-animate>
+          <div class="fv-icon">✅</div>
+          <div class="fv-title">Actions over guilt</div>
+          <p class="fv-text">Every piece of data is paired with 1–3 specific, achievable actions. The tone is always empowering, never accusatory.</p>
+        </div>
+        <div class="fv-card" data-animate>
+          <div class="fv-icon">📈</div>
+          <div class="fv-title">Visible progress</div>
+          <p class="fv-text">Users can see their footprint reduce over time, creating a positive feedback loop. Momentum is more motivating than perfection.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — The Dashboard</div>
+        <h2>Data as a tool, not a verdict</h2>
+      </div>
+      <p data-animate>The dashboard was the hardest problem to solve. Early versions showed total carbon numbers prominently — this tested poorly. Users immediately felt judged. The solution: lead with trend and momentum, not absolute numbers. The most important thing isn't where you are — it's which direction you're moving.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="terra-demo">
+          <div class="td-browser">
+            <div class="td-chrome">
+              <div class="td-dots"><span></span><span></span><span></span></div>
+              <div class="td-url"></div>
+            </div>
+            <div class="td-nav">
+              <div class="td-logo">🌍 Terra</div>
+              <div class="td-score-badge">
+                <span>Your Score</span>
+                <strong>68 / 100</strong>
+              </div>
+              <div style="display:flex;gap:10px;">
+                <div style="font-size:0.5rem;color:var(--text-muted);">Dashboard</div>
+                <div style="font-size:0.5rem;color:var(--text-muted);">Actions</div>
+                <div style="font-size:0.5rem;color:var(--text-muted);">Community</div>
+              </div>
+            </div>
+            <div class="td-body">
+              <div style="font-size:0.55rem;color:var(--cream);margin-bottom:8px;">
+                You're trending <span style="color:rgba(100,200,100,0.9);">▼ 12% lower</span> than last month 🎉
+              </div>
+              <div class="td-overview">
+                <div class="td-stat">
+                  <span class="td-stat-num">4.2t</span>
+                  <span class="td-stat-label">Annual CO₂</span>
+                </div>
+                <div class="td-stat">
+                  <span class="td-stat-num">68</span>
+                  <span class="td-stat-label">Terra Score</span>
+                </div>
+                <div class="td-stat">
+                  <span class="td-stat-num">−12%</span>
+                  <span class="td-stat-label">vs Last Month</span>
+                </div>
+                <div class="td-stat">
+                  <span class="td-stat-num">3</span>
+                  <span class="td-stat-label">Actions Done</span>
+                </div>
+              </div>
+              <div class="td-chart-wrap">
+                <div class="td-chart-header">
+                  <div class="td-chart-title">By Category — This vs Last Month</div>
+                  <div class="td-chart-legend">
+                    <div class="td-legend-item">
+                      <div class="td-legend-dot" style="background:rgba(233,180,182,0.6)"></div>
+                      <span>This month</span>
+                    </div>
+                    <div class="td-legend-item">
+                      <div class="td-legend-dot" style="background:rgba(30,84,51,0.8)"></div>
+                      <span>Last month</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="td-bars">
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:50px;"></div>
+                    <div class="td-bar td-bar--this" style="height:38px;"></div>
+                    <div class="td-bar-label">Food</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:42px;"></div>
+                    <div class="td-bar td-bar--this" style="height:55px;"></div>
+                    <div class="td-bar-label">Travel</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:35px;"></div>
+                    <div class="td-bar td-bar--this" style="height:28px;"></div>
+                    <div class="td-bar-label">Home</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:30px;"></div>
+                    <div class="td-bar td-bar--this" style="height:22px;"></div>
+                    <div class="td-bar-label">Shopping</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:20px;"></div>
+                    <div class="td-bar td-bar--this" style="height:15px;"></div>
+                    <div class="td-bar-label">Other</div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:0.5rem;color:var(--text-muted);margin-bottom:8px;">🎯 Recommended Actions for You</div>
+              <div class="td-tips">
+                <div class="td-tip td-tip--hi">
+                  <div class="td-tip-icon">✈️</div>
+                  <div>
+                    <div class="td-tip-text">Replace one short-haul flight with train travel this year</div>
+                    <div class="td-tip-impact">Could reduce travel footprint by ~30%</div>
+                  </div>
+                </div>
+                <div class="td-tip">
+                  <div class="td-tip-icon">🌱</div>
+                  <div>
+                    <div class="td-tip-text">Try plant-based meals 2× per week</div>
+                    <div class="td-tip-impact">Could save ~0.4t CO₂ per year</div>
+                  </div>
+                </div>
+                <div class="td-tip">
+                  <div class="td-tip-icon">💡</div>
+                  <div>
+                    <div class="td-tip-text">Switch to a renewable energy tariff</div>
+                    <div class="td-tip-impact">Could save ~0.8t CO₂ per year</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Results</div>
+        <h2>Impact that actually <em>moved the needle</em></h2>
+      </div>
+      <p data-animate>Terra launched to 50,000 beta users in January 2024. Within three months, aggregate data showed measurable real-world impact — not just engagement metrics, but actual emissions reductions.</p>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="50">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">k+</span>
+          <span class="result-label">Beta users in<br>first 3 months</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="18">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">avg reduction in<br>user footprint at 90 days</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="74">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">of users completed<br>at least one recommended action</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"Terra is the first environmental app that made me feel like I could actually do something, instead of just feeling guilty." — Beta user, 29</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Back to the start</div>
+      <h2 class="next-title" data-animate>Bloom Health — <em>Mobile Wellness</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="project-1.html" class="btn btn-primary">View Case Study →</a>
+        <a href="../index.html#projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="../index.html" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/project.js"></script>
+</body>
+</html>
