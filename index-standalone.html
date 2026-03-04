@@ -1285,6 +1285,7 @@ body:has(button:hover) .cursor {
 </style>
 </head>
 <body>
+<div id="view-home">
 
   <!-- Custom Cursor -->
   <div class="cursor" id="cursor"></div>
@@ -1510,7 +1511,7 @@ body:has(button:hover) .cursor {
 
         <!-- Card 1 — Bloom (large) -->
         <article class="pcard pcard--large" data-animate="fade-up">
-          <a href="projects/project-1.html" class="pcard-link">
+          <a href="#" data-nav="project-1" class="pcard-link">
             <div class="pcard-img pcard-img--bloom">
               <div class="mockup-phone">
                 <div class="mockup-phone-notch"></div>
@@ -1551,7 +1552,7 @@ body:has(button:hover) .cursor {
 
         <!-- Card 2 — Verdant -->
         <article class="pcard" data-animate="fade-up" style="--card-delay:0.1s">
-          <a href="projects/project-2.html" class="pcard-link">
+          <a href="#" data-nav="project-2" class="pcard-link">
             <div class="pcard-img pcard-img--verdant">
               <div class="mockup-browser">
                 <div class="browser-chrome">
@@ -1597,7 +1598,7 @@ body:has(button:hover) .cursor {
 
         <!-- Card 3 — Lumina -->
         <article class="pcard" data-animate="fade-up" style="--card-delay:0.2s">
-          <a href="projects/project-3.html" class="pcard-link">
+          <a href="#" data-nav="project-3" class="pcard-link">
             <div class="pcard-img pcard-img--lumina">
               <div class="mockup-tablet">
                 <div class="tablet-camera"></div>
@@ -1645,7 +1646,7 @@ body:has(button:hover) .cursor {
 
         <!-- Card 4 — Sage (wide) -->
         <article class="pcard pcard--wide" data-animate="fade-up" style="--card-delay:0.15s">
-          <a href="projects/project-4.html" class="pcard-link">
+          <a href="#" data-nav="project-4" class="pcard-link">
             <div class="pcard-img pcard-img--sage">
               <div class="mockup-phone mockup-phone--sage">
                 <div class="mockup-phone-notch"></div>
@@ -1687,7 +1688,7 @@ body:has(button:hover) .cursor {
 
         <!-- Card 5 — Terra -->
         <article class="pcard" data-animate="fade-up" style="--card-delay:0.25s">
-          <a href="projects/project-5.html" class="pcard-link">
+          <a href="#" data-nav="project-5" class="pcard-link">
             <div class="pcard-img pcard-img--terra">
               <div class="mockup-browser mockup-browser--sm">
                 <div class="browser-chrome">
@@ -2046,6 +2047,2627 @@ body:has(button:hover) .cursor {
 
 })();
 
+</script>
+
+</div><!-- /view-home -->
+<div id="proj-view-1" class="proj-view" style="display:none">
+<style>
+/* ============================================
+   PROJECT DETAIL PAGES — SHARED STYLES
+============================================ */
+:root {
+  --dark: #1C3D22;
+  --mid:  #1E5433;
+  --pink: #E9B4B6;
+  --cream: #F1E5D9;
+  --text-muted: rgba(241,229,217,0.6);
+  --border: rgba(241,229,217,0.12);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--dark);
+  color: var(--cream);
+  overflow-x: hidden;
+  cursor: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--pink); color: var(--dark); }
+.cursor {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--pink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s;
+}
+.cursor-dot {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: var(--pink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+@media (hover: none) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--pink), var(--cream));
+  z-index: 10000;
+}
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 2.5rem;
+  background: rgba(28,61,34,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--cream);
+  cursor: none;
+  transition: color 0.3s;
+}
+.nav-logo:hover { color: var(--pink); }
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: color 0.3s, gap 0.3s;
+  cursor: none;
+}
+.nav-back:hover { color: var(--pink); gap: 0.8rem; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.container--narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+.label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 0.8rem;
+}
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.15; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.2; }
+em { font-style: italic; color: var(--pink); }
+p { font-size: 1rem; line-height: 1.8; color: rgba(241,229,217,0.8); }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: none;
+  border: none;
+}
+.btn-primary { background: var(--pink); color: var(--dark); }
+.btn-primary:hover { background: #f0c2c4; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(233,180,182,0.3); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(241,229,217,0.3); }
+.btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+.proj-hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 9rem 0 5rem;
+  position: relative;
+  overflow: hidden;
+}
+.proj-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.proj-hero-bg-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(28,61,34,0.6) 60%, var(--dark) 100%);
+  z-index: 1;
+}
+.proj-hero-content { position: relative; z-index: 2; }
+.proj-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
+.proj-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.proj-meta-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); }
+.proj-meta-value { font-size: 0.95rem; color: var(--cream); }
+.proj-overview {
+  padding: 6rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.proj-overview-text p { margin-bottom: 1.2rem; }
+.aside-card {
+  background: rgba(30,84,51,0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+.aside-card + .aside-card { margin-top: 1rem; }
+.aside-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--pink);
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+.aside-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.aside-list li { font-size: 0.9rem; color: var(--text-muted); padding-left: 1rem; position: relative; }
+.aside-list li::before { content: '–'; position: absolute; left: 0; color: var(--pink); }
+.divider { height: 1px; background: var(--border); margin: 0; }
+.proj-section { padding: 5rem 0; }
+.proj-section + .proj-section { border-top: 1px solid var(--border); }
+.proj-section-header { margin-bottom: 3rem; }
+.proj-section-header h2 { margin-top: 0.5rem; }
+.visual-block {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--mid);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  min-height: 300px;
+  position: relative;
+}
+.visual-block--tall { min-height: 500px; }
+.visual-block--dark { background: #0d2414; }
+.visual-block + .visual-block { margin-top: 1.5rem; }
+.content-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+.content-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2.5rem 0; }
+.insight-card {
+  background: rgba(30,84,51,0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.8rem;
+}
+.insight-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.6rem; font-weight: 500; }
+.insight-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.callout {
+  border-left: 3px solid var(--pink);
+  padding: 1.2rem 1.8rem;
+  margin: 2.5rem 0;
+  background: rgba(233,180,182,0.06);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.callout p { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--cream); margin: 0; line-height: 1.5; }
+.step-list { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+.step-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--pink); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: right; }
+.step-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-weight: 500; margin-bottom: 0.3rem; }
+.step-body p { font-size: 0.9rem; margin: 0; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+.result-card { text-align: center; padding: 2.5rem 1.5rem; background: rgba(233,180,182,0.08); border: 1px solid rgba(233,180,182,0.2); border-radius: var(--radius); }
+.result-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--pink); font-weight: 400; line-height: 1; display: block; margin-bottom: 0.5rem; }
+.result-label { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+.next-project { padding: 8rem 0; text-align: center; border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+.next-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 1rem; }
+.next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 2rem; }
+.next-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.footer { background: #0d2414; padding: 2rem 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream); font-weight: 600; }
+.footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+.footer-back { font-size: 0.82rem; color: var(--text-muted); transition: color 0.3s; cursor: none; }
+.footer-back:hover { color: var(--pink); }
+[data-animate] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) {
+  .proj-overview { grid-template-columns: 1fr; gap: 3rem; }
+  .content-2col { grid-template-columns: 1fr; gap: 2rem; }
+  .content-3col { grid-template-columns: 1fr 1fr; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .nav { padding: 1rem 1.2rem; }
+  .container, .container--narrow { padding: 0 1.2rem; }
+  .proj-hero { min-height: 70vh; padding: 8rem 0 4rem; }
+  .proj-section { padding: 3.5rem 0; }
+  .content-3col { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; }
+  .visual-block { padding: 1.5rem; min-height: 200px; }
+  .proj-meta { gap: 1.5rem; }
+  .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+}
+  </style>
+<style>
+    .proj-hero-bg { background: linear-gradient(135deg, #0d1f10 0%, #1C3D22 40%, #2a5c35 70%, #E9B4B6 200%); }
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(233,180,182,0.25), transparent 65%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .orb-1 { width: 500px; height: 500px; top: -100px; right: -100px; }
+    .orb-2 { width: 300px; height: 300px; bottom: 50px; left: 100px; animation-delay: 2s; }
+    @keyframes pulse { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+
+    /* Mock screens */
+    .bloom-screens {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .bscreen {
+      background: #0a1f0d;
+      border-radius: 28px;
+      padding: 16px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      width: 180px;
+    }
+    .bscreen--tall { transform: translateY(-20px); width: 200px; }
+    .bscreen-inner { background: #0f2a12; border-radius: 18px; padding: 16px; overflow: hidden; }
+    .bscreen-notch {
+      width: 50px; height: 10px;
+      background: #0a1f0d;
+      border-radius: 0 0 10px 10px;
+      margin: 0 auto 12px;
+    }
+    .bs-header { font-size: 0.65rem; color: rgba(241,229,217,0.5); margin-bottom: 12px; }
+    .bs-big-ring {
+      display: flex; justify-content: center; margin-bottom: 12px;
+    }
+    .bs-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+    .bs-tab {
+      padding: 4px 8px; border-radius: 20px; font-size: 0.45rem;
+      background: rgba(255,255,255,0.05); color: rgba(241,229,217,0.5);
+    }
+    .bs-tab--active { background: rgba(233,180,182,0.25); color: var(--pink); }
+    .bs-list { display: flex; flex-direction: column; gap: 6px; }
+    .bs-item {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px; background: rgba(255,255,255,0.04); border-radius: 8px;
+    }
+    .bs-icon { font-size: 0.7rem; }
+    .bs-text { flex: 1; }
+    .bs-name { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-bottom: 3px; width: 60px; }
+    .bs-prog-wrap { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+    .bs-prog { height: 3px; background: var(--pink); border-radius: 2px; }
+
+    .wf-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .wf-frame {
+      background: rgba(30,84,51,0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      aspect-ratio: 9/16;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 0.4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .wf-label {
+      font-size: 0.65rem;
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: absolute;
+      bottom: 0.7rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .wf-line { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .wf-line--short { width: 60%; }
+    .wf-circle { width: 50px; height: 50px; border-radius: 50%; background: rgba(233,180,182,0.15); margin: 4px auto; }
+    .wf-rect { height: 20px; background: rgba(255,255,255,0.06); border-radius: 4px; }
+    .wf-rect-sm { height: 12px; background: rgba(255,255,255,0.06); border-radius: 4px; }
+    .wf-btn { height: 14px; background: rgba(233,180,182,0.2); border-radius: 20px; width: 70%; margin: 0 auto; }
+  </style>
+<nav class="nav">
+    <a href="#" data-nav="home" class="nav-logo">AC</a>
+    <a href="#" data-nav="home" data-hash="projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Mobile App · Health & Wellness · 2023</div>
+      <h1 data-animate>Bloom Health</h1>
+      <p style="max-width:560px; font-size:1.2rem; margin-top:1.2rem; color:rgba(241,229,217,0.85);" data-animate>
+        A gamified wellness tracking app that makes healthy habits feel effortless, rewarding, and genuinely human.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">Lead UX/UI Designer</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">14 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Maze, Miro, Lottie</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">iOS & Android</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section style="padding:5rem 0; background: var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Health apps that feel like homework</h2>
+          <p style="margin-top:1.2rem;">
+            Most wellness apps are either too clinical — cold dashboards packed with numbers — or too gamified in ways that feel hollow and patronising. Users start with enthusiasm and abandon the app within two weeks.
+          </p>
+          <p>
+            Bloom's goal was different: create an app that felt like a supportive friend, not a fitness tracker. One that celebrated progress without shaming setbacks.
+          </p>
+          <div class="callout">
+            <p>"How do we make people feel good about their health journey, even on the days they fall short?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Deliverables</div>
+            <ul class="aside-list">
+              <li>User research synthesis</li>
+              <li>Persona development</li>
+              <li>Information architecture</li>
+              <li>Low & high fidelity wireframes</li>
+              <li>Interactive prototype</li>
+              <li>Design system components</li>
+              <li>Usability test reports</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Team</div>
+            <ul class="aside-list">
+              <li>1 Lead Designer (me)</li>
+              <li>2 Product Managers</li>
+              <li>4 Engineers</li>
+              <li>1 Content Strategist</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Discover</div>
+        <h2>Understanding the <em>real</em> story</h2>
+      </div>
+      <p data-animate>I conducted 18 user interviews over two weeks, targeting people who had downloaded and abandoned at least two health apps in the past year. I also ran a diary study with 8 participants for 10 days to capture real-time emotional responses to habit tracking.</p>
+      <p data-animate style="margin-top:1rem;">Alongside user research, I audited 12 competitor apps across health, fitness, and mindfulness categories — mapping their onboarding flows, notification strategies, and reward mechanics.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="content-3col">
+        <div class="insight-card" data-animate>
+          <h4>😩 Guilt spirals</h4>
+          <p>14 of 18 participants reported feeling guilty or embarrassed when they missed days, often leading to full abandonment rather than resumption.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🎯 Goal overload</h4>
+          <p>Users set 6–10 goals simultaneously at onboarding. Apps with more than 3 active habits had 3× higher drop-off rates within week one.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>💬 Missing context</h4>
+          <p>Users wanted to understand "why" behind recommendations — not just what to do, but the reasoning that made it meaningful to their life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEFINE -->
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Define</div>
+        <h2>Who we're designing for</h2>
+      </div>
+      <p data-animate>Research data crystallised into two primary personas that guided every subsequent design decision:</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="content-2col">
+        <div class="insight-card" data-animate>
+          <h4>Maya, 28 — The Restart Loop</h4>
+          <p>A marketing manager who re-downloads health apps every few months with high motivation, then burns out when life gets busy. She needs flexibility and encouragement, not streaks.</p>
+          <p style="margin-top:0.8rem;"><em>"I know what I should be doing. I just need something that doesn't make me feel terrible when I don't."</em></p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>James, 34 — The Data Skeptic</h4>
+          <p>A software engineer who tracks metrics obsessively but struggles to translate numbers into feeling better. He needs apps to help him connect data to lived experience.</p>
+          <p style="margin-top:0.8rem;"><em>"I've got years of step data and absolutely no idea if it means anything."</em></p>
+        </div>
+      </div>
+      <div class="container--narrow" style="padding:0;">
+        <p data-animate style="margin-top:2rem;">From these personas, I defined the core design principles that would guide Bloom:</p>
+        <div class="step-list" style="margin-top:1.5rem;">
+          <div class="step-item" data-animate>
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Progress over perfection</h4>
+              <p>Celebrate any positive action, no matter how small. Remove streaks that penalise rest.</p>
+            </div>
+          </div>
+          <div class="step-item" data-animate>
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Start small, grow gradually</h4>
+              <p>Onboard with one habit. Unlock new goals naturally as the user builds confidence.</p>
+            </div>
+          </div>
+          <div class="step-item" data-animate>
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>Context, not commands</h4>
+              <p>Every recommendation includes the "why" — grounded in the user's own patterns.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WIREFRAMES -->
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — Design</div>
+        <h2>From sketches to <em>structure</em></h2>
+      </div>
+      <p data-animate>I mapped the information architecture first, then moved into lo-fi wireframes — 40+ screens exploring different approaches to the home dashboard, habit logging, and progress visualisation. I tested three distinct home screen concepts with 12 participants before moving to high-fidelity.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark" data-animate>
+        <div class="wf-grid">
+          <div class="wf-frame">
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-circle"></div>
+            <div class="wf-line"></div>
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-label">Home v1</div>
+          </div>
+          <div class="wf-frame">
+            <div class="wf-line"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-btn"></div>
+            <div class="wf-label">Home v2</div>
+          </div>
+          <div class="wf-frame">
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-circle" style="width:40px;height:40px;"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-btn"></div>
+            <div class="wf-label">Log Habit</div>
+          </div>
+          <div class="wf-frame">
+            <div class="wf-line"></div>
+            <div class="wf-rect"></div>
+            <div class="wf-line wf-line--short"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-rect-sm"></div>
+            <div class="wf-label">Progress</div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center; font-size:0.82rem; color:var(--text-muted); margin-top:1rem;">Lo-fidelity wireframe explorations — 4 of 40+ screens</p>
+    </div>
+  </section>
+
+  <!-- FINAL DESIGN -->
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Final Design</div>
+        <h2>The app that felt like a <em>friend</em></h2>
+      </div>
+      <p data-animate>The final design embraces warm typography, gentle micro-animations, and a colour palette drawn from nature — deep greens and blush pinks that feel nurturing rather than clinical. The signature ring progress indicator became the emotional heart of the app.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="bloom-screens">
+          <div class="bscreen">
+            <div class="bscreen-notch"></div>
+            <div class="bscreen-inner">
+              <div class="bs-header">Good morning, Maya ✨</div>
+              <div class="bs-tabs">
+                <div class="bs-tab bs-tab--active">Today</div>
+                <div class="bs-tab">Week</div>
+                <div class="bs-tab">Month</div>
+              </div>
+              <div class="bs-big-ring">
+                <svg viewBox="0 0 100 100" width="80">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(30,84,51,0.8)" stroke-width="7"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#E9B4B6" stroke-width="7"
+                    stroke-dasharray="264" stroke-dashoffset="66" stroke-linecap="round"
+                    transform="rotate(-90 50 50)"/>
+                  <text x="50" y="47" text-anchor="middle" font-size="14" fill="#F1E5D9" font-weight="600">75%</text>
+                  <text x="50" y="60" text-anchor="middle" font-size="7" fill="rgba(241,229,217,0.6)">Daily Goal</text>
+                </svg>
+              </div>
+              <div class="bs-list">
+                <div class="bs-item">
+                  <div class="bs-icon">💧</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div class="bs-prog-wrap"><div class="bs-prog" style="width:75%"></div></div>
+                  </div>
+                </div>
+                <div class="bs-item">
+                  <div class="bs-icon">🏃</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div class="bs-prog-wrap"><div class="bs-prog" style="width:55%;background:rgba(241,229,217,0.5)"></div></div>
+                  </div>
+                </div>
+                <div class="bs-item">
+                  <div class="bs-icon">😴</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div class="bs-prog-wrap"><div class="bs-prog" style="width:90%"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bscreen bscreen--tall">
+            <div class="bscreen-notch"></div>
+            <div class="bscreen-inner">
+              <div class="bs-header" style="font-size:0.7rem;color:var(--pink);">You're on a roll 🌱</div>
+              <div style="font-size:0.5rem;color:rgba(241,229,217,0.5);margin-bottom:10px;">3-day momentum streak</div>
+              <div style="background:rgba(233,180,182,0.1);border-radius:10px;padding:10px;margin-bottom:8px;">
+                <div style="font-size:0.55rem;color:var(--cream);margin-bottom:4px;">This week</div>
+                <div style="display:flex;gap:4px;align-items:flex-end;height:30px;">
+                  <div style="flex:1;background:rgba(30,84,51,0.8);border-radius:2px;height:60%"></div>
+                  <div style="flex:1;background:rgba(233,180,182,0.6);border-radius:2px;height:80%"></div>
+                  <div style="flex:1;background:rgba(233,180,182,0.6);border-radius:2px;height:70%"></div>
+                  <div style="flex:1;background:rgba(233,180,182,0.6);border-radius:2px;height:90%"></div>
+                  <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:2px;height:20%"></div>
+                  <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:2px;height:20%"></div>
+                  <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:2px;height:20%"></div>
+                </div>
+              </div>
+              <div class="bs-list">
+                <div class="bs-item" style="background:rgba(233,180,182,0.1);">
+                  <div class="bs-icon">🎯</div>
+                  <div class="bs-text">
+                    <div class="bs-name"></div>
+                    <div style="font-size:0.38rem;color:var(--pink);">Achievement unlocked</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bscreen">
+            <div class="bscreen-notch"></div>
+            <div class="bscreen-inner">
+              <div class="bs-header">Log Water</div>
+              <div class="bs-big-ring">
+                <svg viewBox="0 0 100 100" width="70">
+                  <text x="50" y="45" text-anchor="middle" font-size="28" fill="#E9B4B6">💧</text>
+                  <text x="50" y="65" text-anchor="middle" font-size="10" fill="#F1E5D9" font-weight="600">6 / 8</text>
+                  <text x="50" y="78" text-anchor="middle" font-size="7" fill="rgba(241,229,217,0.5)">cups today</text>
+                </svg>
+              </div>
+              <div style="display:flex;justify-content:center;gap:6px;margin-bottom:10px;">
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(233,180,182,0.5);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(255,255,255,0.1);border-radius:2px 2px 6px 6px;"></div>
+                <div style="width:18px;height:22px;background:rgba(255,255,255,0.1);border-radius:2px 2px 6px 6px;"></div>
+              </div>
+              <div style="background:rgba(233,180,182,0.2);border-radius:8px;padding:8px;text-align:center;">
+                <div style="font-size:0.5rem;color:var(--pink);">+ Add a cup</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">05 — Impact</div>
+        <h2>Numbers that tell the story</h2>
+      </div>
+      <p data-animate>After a 6-week beta launch with 1,200 users, Bloom demonstrated measurable improvements across every key retention and engagement metric compared to the previous version.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="67">0</span>
+          <span class="result-label">% increase in<br>Day-30 retention</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="4">0</span>
+          <span class="result-label">Average app sessions<br>per day per user</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="92">0</span>
+          <span class="result-label">% user satisfaction<br>score (SUS)</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"This is the first health app that doesn't make me feel bad about myself. I've used it every day for six weeks." — Beta user, 28</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT PROJECT CTA -->
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Verdant — <em>Sustainable Fashion</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="#" data-nav="project-2" class="btn btn-primary">View Case Study →</a>
+        <a href="#" data-nav="home" data-hash="projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="#" data-nav="home" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+</div>
+<div id="proj-view-2" class="proj-view" style="display:none">
+<style>
+:root {
+  --dark: #1C3D22; --mid: #1E5433; --pink: #E9B4B6; --cream: #F1E5D9;
+  --text-muted: rgba(241,229,217,0.6); --border: rgba(241,229,217,0.12);
+  --radius: 20px; --radius-sm: 12px; --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--cream); overflow-x: hidden; cursor: none; opacity: 0; transition: opacity 0.5s ease; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--pink); color: var(--dark); }
+.cursor { position: fixed; width: 36px; height: 36px; border: 1.5px solid var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; }
+.cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+@media (hover: none) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+.scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, var(--pink), var(--cream)); z-index: 10000; }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 2.5rem; background: rgba(28,61,34,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--cream); cursor: none; transition: color 0.3s; }
+.nav-logo:hover { color: var(--pink); }
+.nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s, gap 0.3s; cursor: none; }
+.nav-back:hover { color: var(--pink); gap: 0.8rem; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.container--narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+.label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.8rem; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.15; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.2; }
+em { font-style: italic; color: var(--pink); }
+p { font-size: 1rem; line-height: 1.8; color: rgba(241,229,217,0.8); }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; transition: var(--transition); cursor: none; border: none; }
+.btn-primary { background: var(--pink); color: var(--dark); }
+.btn-primary:hover { background: #f0c2c4; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(233,180,182,0.3); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(241,229,217,0.3); }
+.btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+.proj-hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 9rem 0 5rem; position: relative; overflow: hidden; }
+.proj-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.proj-hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(28,61,34,0.6) 60%, var(--dark) 100%); z-index: 1; }
+.proj-hero-content { position: relative; z-index: 2; }
+.proj-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
+.proj-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.proj-meta-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); }
+.proj-meta-value { font-size: 0.95rem; color: var(--cream); }
+.proj-overview { padding: 6rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.proj-overview-text p { margin-bottom: 1.2rem; }
+.aside-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.aside-card + .aside-card { margin-top: 1rem; }
+.aside-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--pink); margin-bottom: 0.8rem; font-weight: 500; letter-spacing: 0.05em; }
+.aside-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.aside-list li { font-size: 0.9rem; color: var(--text-muted); padding-left: 1rem; position: relative; }
+.aside-list li::before { content: '–'; position: absolute; left: 0; color: var(--pink); }
+.proj-section { padding: 5rem 0; }
+.proj-section + .proj-section { border-top: 1px solid var(--border); }
+.proj-section-header { margin-bottom: 3rem; }
+.proj-section-header h2 { margin-top: 0.5rem; }
+.visual-block { border-radius: var(--radius); overflow: hidden; background: var(--mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 3rem; min-height: 300px; position: relative; }
+.visual-block--tall { min-height: 500px; }
+.visual-block--dark { background: #0d2414; }
+.visual-block + .visual-block { margin-top: 1.5rem; }
+.content-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+.content-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2.5rem 0; }
+.insight-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.8rem; }
+.insight-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.6rem; font-weight: 500; }
+.insight-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.callout { border-left: 3px solid var(--pink); padding: 1.2rem 1.8rem; margin: 2.5rem 0; background: rgba(233,180,182,0.06); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.callout p { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--cream); margin: 0; line-height: 1.5; }
+.step-list { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+.step-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--pink); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: right; }
+.step-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-weight: 500; margin-bottom: 0.3rem; }
+.step-body p { font-size: 0.9rem; margin: 0; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+.result-card { text-align: center; padding: 2.5rem 1.5rem; background: rgba(233,180,182,0.08); border: 1px solid rgba(233,180,182,0.2); border-radius: var(--radius); }
+.result-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--pink); font-weight: 400; line-height: 1; display: block; margin-bottom: 0.5rem; }
+.result-label { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+.next-project { padding: 8rem 0; text-align: center; border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+.next-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 1rem; }
+.next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 2rem; }
+.next-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.footer { background: #0d2414; padding: 2rem 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream); font-weight: 600; }
+.footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+.footer-back { font-size: 0.82rem; color: var(--text-muted); transition: color 0.3s; cursor: none; }
+.footer-back:hover { color: var(--pink); }
+[data-animate] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) { .proj-overview { grid-template-columns: 1fr; gap: 3rem; } .content-2col { grid-template-columns: 1fr; gap: 2rem; } .content-3col { grid-template-columns: 1fr 1fr; } .results-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .nav { padding: 1rem 1.2rem; } .container, .container--narrow { padding: 0 1.2rem; } .proj-hero { min-height: 70vh; padding: 8rem 0 4rem; } .proj-section { padding: 3.5rem 0; } .content-3col { grid-template-columns: 1fr; } .results-grid { grid-template-columns: 1fr; } .visual-block { padding: 1.5rem; min-height: 200px; } .proj-meta { gap: 1.5rem; } .footer-inner { flex-direction: column; align-items: center; text-align: center; } }
+  </style>
+<style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #0a1a0e 0%, #1C3D22 40%, #2d7a3f 80%, #4a9e5c 130%);
+    }
+    .verdant-demo {
+      display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; justify-content: center;
+    }
+    .vd-browser {
+      width: 480px;
+      background: #0a1a0d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .vd-chrome {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 14px; background: #0d2414;
+    }
+    .vd-dots { display: flex; gap: 5px; }
+    .vd-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+    .vd-url {
+      flex:1; height: 18px; background: rgba(255,255,255,0.06);
+      border-radius: 9px; margin-left: 10px;
+    }
+    .vd-body { padding: 0; }
+    .vd-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vd-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-style: italic; }
+    .vd-nav-links { display: flex; gap: 12px; }
+    .vd-nav-links span { font-size: 0.55rem; color: rgba(241,229,217,0.5); }
+    .vd-hero-banner {
+      height: 100px;
+      background: linear-gradient(135deg, #1E5433, #2d7a47);
+      display: flex; align-items: center; padding: 0 20px;
+      position: relative; overflow: hidden;
+    }
+    .vd-hero-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .vd-hero-text p { font-size: 0.5rem; color: rgba(241,229,217,0.7); margin-top: 4px; }
+    .vd-hero-cta {
+      margin-top: 8px; padding: 4px 12px; background: var(--pink);
+      color: var(--dark); font-size: 0.45rem; border-radius: 20px;
+      display: inline-block; font-weight: 600;
+    }
+    .vd-hero-leaf {
+      position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+      font-size: 3rem; opacity: 0.3;
+    }
+    .vd-filter-bar {
+      display: flex; gap: 6px; padding: 10px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vd-filter {
+      padding: 3px 8px; border-radius: 20px; font-size: 0.45rem;
+      background: rgba(255,255,255,0.05); color: rgba(241,229,217,0.5);
+    }
+    .vd-filter--active { background: rgba(233,180,182,0.2); color: var(--pink); }
+    .vd-products {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 20px 20px;
+    }
+    .vd-prod { border-radius: 8px; overflow: hidden; background: rgba(255,255,255,0.04); }
+    .vd-prod-img {
+      height: 60px;
+      background: linear-gradient(135deg, rgba(30,84,51,0.8), rgba(45,122,71,0.6));
+    }
+    .vd-prod-img--2 { background: linear-gradient(135deg, rgba(233,180,182,0.3), rgba(241,229,217,0.1)); }
+    .vd-prod-img--3 { background: linear-gradient(135deg, rgba(28,61,34,0.9), rgba(30,84,51,0.7)); }
+    .vd-prod-info { padding: 6px; }
+    .vd-prod-name { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-bottom: 3px; }
+    .vd-prod-price { font-size: 0.45rem; color: var(--cream); margin-bottom: 3px; }
+    .vd-prod-tags { display: flex; gap: 2px; }
+    .vd-tag { font-size: 0.3rem; padding: 1px 4px; background: rgba(233,180,182,0.15); color: var(--pink); border-radius: 3px; }
+
+    .journey-steps {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .journey-step {
+      display: flex; gap: 1.5rem; padding: 2rem 0;
+      border-bottom: 1px solid var(--border); align-items: flex-start;
+    }
+    .journey-step:last-child { border-bottom: none; }
+    .js-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; color: rgba(233,180,182,0.2); line-height: 1;
+      flex-shrink: 0; width: 3rem; text-align: right; padding-top: 0.2rem;
+    }
+    .js-body {}
+    .js-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: var(--cream); margin-bottom: 0.5rem;
+    }
+    .js-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+  </style>
+<nav class="nav">
+    <a href="#" data-nav="home" class="nav-logo">AC</a>
+    <a href="#" data-nav="home" data-hash="projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding-right:10%;pointer-events:none;">
+        <div style="font-size:18rem;opacity:0.04;user-select:none;">🌿</div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>E-Commerce · Sustainability · 2023</div>
+      <h1 data-animate>Verdant</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        A sustainable fashion marketplace that makes ethical shopping as beautiful and easy as conventional retail.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">UX Lead + Visual Design</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">18 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Adobe XD, Maze, Hotjar</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">Web (Responsive)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Making ethics as easy as clicking "Add to Cart"</h2>
+          <p style="margin-top:1.2rem;">Sustainable fashion exists, but finding it is exhausting. Consumers have to navigate dozens of indie brand websites with inconsistent UX, no centralised search, and zero transparency on what "sustainable" actually means for a given product.</p>
+          <p>Verdant needed to solve the discovery problem — but without lecturing users. The goal was a platform that felt like ASOS for conscious shoppers, not a climate anxiety simulator.</p>
+          <div class="callout">
+            <p>"How do we make sustainable fashion feel aspirational and effortless, not preachy?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Deliverables</div>
+            <ul class="aside-list">
+              <li>Discovery & research synthesis</li>
+              <li>Content strategy framework</li>
+              <li>Full responsive design system</li>
+              <li>Product listing templates</li>
+              <li>Checkout & cart flows</li>
+              <li>Sustainability rating system UI</li>
+              <li>Brand onboarding flow</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Impact</div>
+            <ul class="aside-list">
+              <li>40% higher conversion vs benchmark</li>
+              <li>22% lower cart abandonment</li>
+              <li>4.8/5 usability score</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Research</div>
+        <h2>The <em>real</em> barrier to sustainable shopping</h2>
+      </div>
+      <p data-animate>I surveyed 250 online shoppers aged 22–40 who described themselves as environmentally conscious, but whose actual sustainable purchase history was low. The gap between intention and action was the core problem.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="content-3col">
+        <div class="insight-card" data-animate>
+          <h4>🔍 Discovery fatigue</h4>
+          <p>78% of respondents had abandoned a sustainable purchase because finding the right product took "too long". Average search session was 14 minutes before giving up.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🏷 Greenwashing distrust</h4>
+          <p>64% didn't trust sustainability claims made by brands directly. They wanted third-party verification displayed clearly at point of purchase.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>💸 Price justification</h4>
+          <p>Sustainable items are often 30–80% more expensive. Users needed the story behind the price — the craftsmanship, materials, and fair wages — surfaced naturally.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Design System</div>
+        <h2>Building trust through <em>visual language</em></h2>
+      </div>
+      <p data-animate>The design system needed to communicate transparency and authenticity. I developed a "Sustainability Score" visual component — a simple 5-leaf rating visible on every product card — that gave users instant legibility without information overload.</p>
+      <p data-animate style="margin-top:1rem;">Typography and colour choices drew from natural materials: earthy greens, warm neutrals, and selective blush pink accents to signal warmth and quality without greenwashing aesthetics.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="verdant-demo">
+          <div class="vd-browser">
+            <div class="vd-chrome">
+              <div class="vd-dots"><span></span><span></span><span></span></div>
+              <div class="vd-url"></div>
+            </div>
+            <div class="vd-body">
+              <div class="vd-nav">
+                <div class="vd-logo">Verdant</div>
+                <div class="vd-nav-links">
+                  <span>Women</span><span>Men</span><span>Home</span><span>About</span>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <div style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+                  <div style="width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+                </div>
+              </div>
+              <div class="vd-hero-banner">
+                <div class="vd-hero-text">
+                  <h3>Wear your values</h3>
+                  <p>200+ certified sustainable brands in one place</p>
+                  <div class="vd-hero-cta">Shop Now →</div>
+                </div>
+                <div class="vd-hero-leaf">🌿</div>
+              </div>
+              <div class="vd-filter-bar">
+                <div class="vd-filter vd-filter--active">All</div>
+                <div class="vd-filter">🌿 Organic</div>
+                <div class="vd-filter">♻️ Recycled</div>
+                <div class="vd-filter">🤝 Fair Trade</div>
+                <div class="vd-filter">🌱 Vegan</div>
+              </div>
+              <div class="vd-products">
+                <div class="vd-prod">
+                  <div class="vd-prod-img"></div>
+                  <div class="vd-prod-info">
+                    <div class="vd-prod-name"></div>
+                    <div class="vd-prod-price">$89</div>
+                    <div class="vd-prod-tags">
+                      <div class="vd-tag">🌿 Organic</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="vd-prod">
+                  <div class="vd-prod-img vd-prod-img--2"></div>
+                  <div class="vd-prod-info">
+                    <div class="vd-prod-name"></div>
+                    <div class="vd-prod-price">$124</div>
+                    <div class="vd-prod-tags">
+                      <div class="vd-tag">♻️ Recycled</div>
+                      <div class="vd-tag">🤝 Fair</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="vd-prod">
+                  <div class="vd-prod-img vd-prod-img--3"></div>
+                  <div class="vd-prod-info">
+                    <div class="vd-prod-name"></div>
+                    <div class="vd-prod-price">$67</div>
+                    <div class="vd-prod-tags">
+                      <div class="vd-tag">🌱 Vegan</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — User Journey</div>
+        <h2>Designing a shopping flow that <em>educates without lecturing</em></h2>
+      </div>
+      <div class="journey-steps">
+        <div class="journey-step" data-animate>
+          <div class="js-num">1</div>
+          <div class="js-body">
+            <h3 class="js-title">Discover through values, not categories</h3>
+            <p class="js-text">Onboarding asks users to select values (Organic, Fair Trade, Local, etc.) rather than clothing categories. This filters the entire catalogue to products that align with what they actually care about.</p>
+          </div>
+        </div>
+        <div class="journey-step" data-animate>
+          <div class="js-num">2</div>
+          <div class="js-body">
+            <h3 class="js-title">Trust built into every product card</h3>
+            <p class="js-text">The "Verdant Score" (a 5-leaf rating) appears on every card with a tap-to-explain tooltip. Users learn what it means through interaction, not upfront education that interrupts browsing.</p>
+          </div>
+        </div>
+        <div class="journey-step" data-animate>
+          <div class="js-num">3</div>
+          <div class="js-body">
+            <h3 class="js-title">Price narrative at point of decision</h3>
+            <p class="js-text">A "Why this price?" accordion on product pages breaks down cost into materials, labour, and brand margin — giving users the story they need to feel good about spending more.</p>
+          </div>
+        </div>
+        <div class="journey-step" data-animate>
+          <div class="js-num">4</div>
+          <div class="js-body">
+            <h3 class="js-title">Carbon offset built into checkout</h3>
+            <p class="js-text">A single checkbox in checkout offsets shipping emissions for $0.40. Default on. Opt-out if needed. 89% of beta users kept it checked.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Results</div>
+        <h2>Impact in numbers</h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="40">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">higher conversion vs<br>industry benchmark</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="22">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">lower cart<br>abandonment rate</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="89">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">of users kept<br>carbon offset on</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Lumina — <em>Smart Home</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="#" data-nav="project-3" class="btn btn-primary">View Case Study →</a>
+        <a href="#" data-nav="home" data-hash="projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="#" data-nav="home" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+</div>
+<div id="proj-view-3" class="proj-view" style="display:none">
+<style>
+:root {
+  --dark: #1C3D22; --mid: #1E5433; --pink: #E9B4B6; --cream: #F1E5D9;
+  --text-muted: rgba(241,229,217,0.6); --border: rgba(241,229,217,0.12);
+  --radius: 20px; --radius-sm: 12px; --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--cream); overflow-x: hidden; cursor: none; opacity: 0; transition: opacity 0.5s ease; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--pink); color: var(--dark); }
+.cursor { position: fixed; width: 36px; height: 36px; border: 1.5px solid var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; }
+.cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+@media (hover: none) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+.scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, var(--pink), var(--cream)); z-index: 10000; }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 2.5rem; background: rgba(28,61,34,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--cream); cursor: none; transition: color 0.3s; }
+.nav-logo:hover { color: var(--pink); }
+.nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s, gap 0.3s; cursor: none; }
+.nav-back:hover { color: var(--pink); gap: 0.8rem; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.container--narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+.label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.8rem; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.15; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.2; }
+em { font-style: italic; color: var(--pink); }
+p { font-size: 1rem; line-height: 1.8; color: rgba(241,229,217,0.8); }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; transition: var(--transition); cursor: none; border: none; }
+.btn-primary { background: var(--pink); color: var(--dark); }
+.btn-primary:hover { background: #f0c2c4; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(233,180,182,0.3); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(241,229,217,0.3); }
+.btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+.proj-hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 9rem 0 5rem; position: relative; overflow: hidden; }
+.proj-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.proj-hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(28,61,34,0.6) 60%, var(--dark) 100%); z-index: 1; }
+.proj-hero-content { position: relative; z-index: 2; }
+.proj-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
+.proj-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.proj-meta-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); }
+.proj-meta-value { font-size: 0.95rem; color: var(--cream); }
+.proj-overview { padding: 6rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.proj-overview-text p { margin-bottom: 1.2rem; }
+.aside-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.aside-card + .aside-card { margin-top: 1rem; }
+.aside-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--pink); margin-bottom: 0.8rem; font-weight: 500; letter-spacing: 0.05em; }
+.aside-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.aside-list li { font-size: 0.9rem; color: var(--text-muted); padding-left: 1rem; position: relative; }
+.aside-list li::before { content: '–'; position: absolute; left: 0; color: var(--pink); }
+.proj-section { padding: 5rem 0; }
+.proj-section + .proj-section { border-top: 1px solid var(--border); }
+.proj-section-header { margin-bottom: 3rem; }
+.proj-section-header h2 { margin-top: 0.5rem; }
+.visual-block { border-radius: var(--radius); overflow: hidden; background: var(--mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 3rem; min-height: 300px; position: relative; }
+.visual-block--tall { min-height: 500px; }
+.visual-block--dark { background: #0d2414; }
+.visual-block + .visual-block { margin-top: 1.5rem; }
+.content-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+.content-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2.5rem 0; }
+.insight-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.8rem; }
+.insight-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.6rem; font-weight: 500; }
+.insight-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.callout { border-left: 3px solid var(--pink); padding: 1.2rem 1.8rem; margin: 2.5rem 0; background: rgba(233,180,182,0.06); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.callout p { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--cream); margin: 0; line-height: 1.5; }
+.step-list { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+.step-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--pink); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: right; }
+.step-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-weight: 500; margin-bottom: 0.3rem; }
+.step-body p { font-size: 0.9rem; margin: 0; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+.result-card { text-align: center; padding: 2.5rem 1.5rem; background: rgba(233,180,182,0.08); border: 1px solid rgba(233,180,182,0.2); border-radius: var(--radius); }
+.result-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--pink); font-weight: 400; line-height: 1; display: block; margin-bottom: 0.5rem; }
+.result-label { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+.next-project { padding: 8rem 0; text-align: center; border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+.next-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 1rem; }
+.next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 2rem; }
+.next-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.footer { background: #0d2414; padding: 2rem 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream); font-weight: 600; }
+.footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+.footer-back { font-size: 0.82rem; color: var(--text-muted); transition: color 0.3s; cursor: none; }
+.footer-back:hover { color: var(--pink); }
+[data-animate] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) { .proj-overview { grid-template-columns: 1fr; gap: 3rem; } .content-2col { grid-template-columns: 1fr; gap: 2rem; } .content-3col { grid-template-columns: 1fr 1fr; } .results-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .nav { padding: 1rem 1.2rem; } .container, .container--narrow { padding: 0 1.2rem; } .proj-hero { min-height: 70vh; padding: 8rem 0 4rem; } .proj-section { padding: 3.5rem 0; } .content-3col { grid-template-columns: 1fr; } .results-grid { grid-template-columns: 1fr; } .visual-block { padding: 1.5rem; min-height: 200px; } .proj-meta { gap: 1.5rem; } .footer-inner { flex-direction: column; align-items: center; text-align: center; } }
+  </style>
+<style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #0a1420 0%, #1a2a3e 40%, #1E5433 80%, #2d7a4f 120%);
+    }
+    .lumina-demo {
+      display: flex; justify-content: center;
+    }
+    .ld-tablet {
+      width: 580px;
+      background: #0a1520;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .ld-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; padding: 0 4px;
+    }
+    .ld-bar-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .ld-bar-time { font-size: 0.65rem; color: var(--pink); }
+    .ld-greeting {
+      background: rgba(30,84,51,0.3);
+      border: 1px solid rgba(233,180,182,0.15);
+      border-radius: 12px; padding: 12px 16px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px;
+    }
+    .ld-greeting-text h3 { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--cream); }
+    .ld-greeting-text p { font-size: 0.5rem; color: var(--text-muted); margin-top: 2px; }
+    .ld-scene-btn {
+      display: flex; gap: 5px;
+    }
+    .ld-scene {
+      padding: 5px 10px; border-radius: 20px; font-size: 0.45rem;
+      background: rgba(255,255,255,0.06); color: rgba(241,229,217,0.6);
+      cursor: default;
+    }
+    .ld-scene--active { background: rgba(233,180,182,0.2); color: var(--pink); }
+    .ld-main-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px;
+    }
+    .ld-tile {
+      border-radius: 12px;
+      padding: 14px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; flex-direction: column; gap: 4px;
+      cursor: default;
+    }
+    .ld-tile--on {
+      background: rgba(233,180,182,0.12);
+      border-color: rgba(233,180,182,0.2);
+    }
+    .ld-tile--large { grid-column: span 2; }
+    .ld-tile-icon { font-size: 1.1rem; margin-bottom: 2px; }
+    .ld-tile-room { font-size: 0.45rem; color: var(--text-muted); }
+    .ld-tile-status { font-size: 0.5rem; color: var(--cream); font-weight: 500; }
+    .ld-tile-sub { font-size: 0.38rem; color: var(--text-muted); }
+    .ld-toggle {
+      display: flex; align-items: center; gap: 4px; margin-top: 4px;
+    }
+    .ld-toggle-track {
+      width: 22px; height: 12px;
+      border-radius: 6px; background: rgba(255,255,255,0.1);
+      position: relative;
+    }
+    .ld-toggle-track--on { background: rgba(233,180,182,0.6); }
+    .ld-toggle-knob {
+      position: absolute; top: 2px;
+      width: 8px; height: 8px;
+      border-radius: 50%; background: white;
+      left: 2px; transition: left 0.3s;
+    }
+    .ld-toggle-track--on .ld-toggle-knob { left: 12px; }
+    .ld-energy {
+      background: rgba(30,84,51,0.2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px; margin-bottom: 12px;
+    }
+    .ld-energy-title { font-size: 0.5rem; color: var(--text-muted); margin-bottom: 8px; }
+    .ld-energy-bars { display: flex; gap: 4px; align-items: flex-end; height: 35px; }
+    .ld-energy-bar { flex:1; border-radius: 2px 2px 0 0; background: rgba(30,84,51,0.8); }
+    .ld-energy-bar--now { background: rgba(233,180,182,0.6); }
+    .ld-bottom { display: flex; gap: 8px; }
+    .ld-bottom-card {
+      flex: 1; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 12px; padding: 10px;
+    }
+    .ld-bottom-label { font-size: 0.42rem; color: var(--text-muted); margin-bottom: 4px; }
+    .ld-bottom-val { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--pink); }
+
+    .complexity-chart {
+      display: flex; gap: 3rem; align-items: center; justify-content: center; padding: 2rem;
+    }
+    .cc-before, .cc-after {
+      text-align: center; flex: 1;
+    }
+    .cc-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--text-muted); margin-bottom: 1rem;
+    }
+    .cc-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .cc-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; max-width: 120px; margin: 0 auto; }
+    .cc-arrow {
+      font-size: 1.5rem; color: var(--pink); flex-shrink: 0;
+    }
+  </style>
+<nav class="nav">
+    <a href="#" data-nav="home" class="nav-logo">AC</a>
+    <a href="#" data-nav="home" data-hash="projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(30,84,51,0.4),transparent 70%);top:-100px;right:-80px;"></div>
+        <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(233,180,182,0.15),transparent 70%);bottom:20%;left:15%;"></div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Dashboard · Smart Home · 2022</div>
+      <h1 data-animate>Lumina</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        A smart home control dashboard that simplifies the complexity of connected living into a single, beautiful interface.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">UX/UI Designer</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">20 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Principle, ProtoPie</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">iPad & Web</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Problem</div>
+          <h2>Brilliant technology, terrible experience</h2>
+          <p style="margin-top:1.2rem;">Smart home technology has reached mainstream adoption — but the apps controlling it haven't kept pace. Users with 10+ devices navigate 4–6 different manufacturer apps, each with its own logic and interface. The promise of a "smart home" ironically makes life more complicated.</p>
+          <p>Lumina was commissioned to be the unified layer: one interface to control everything. The design challenge was as much about information architecture as it was visual design.</p>
+          <div class="callout">
+            <p>"How do we take 20+ smart devices and make them feel like one seamless home?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">The Challenge</div>
+            <ul class="aside-list">
+              <li>12+ device categories to unify</li>
+              <li>Real-time status across all devices</li>
+              <li>Scene & automation management</li>
+              <li>Energy monitoring integration</li>
+              <li>Voice control companion design</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Key Metrics</div>
+            <ul class="aside-list">
+              <li>Task completion: 94% success rate</li>
+              <li>Time-on-task reduced by 58%</li>
+              <li>SUS score: 88/100</li>
+              <li>NPS: +62</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Research</div>
+        <h2>Mapping the chaos</h2>
+      </div>
+      <p data-animate>I spent the first three weeks deeply embedded in the problem: living with participants in their smart homes, shadowing their daily routines, and logging every friction point. I also conducted 24 remote interviews with smart home enthusiasts and casual users.</p>
+      <p data-animate style="margin-top:1rem;">Contextual inquiry revealed that the real problem wasn't just too many apps — it was a lack of mental model. Users couldn't picture what their home's "state" was at any given moment. The solution needed to create a coherent mental model, not just a pretty dashboard.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="visual-block" data-animate>
+        <div class="complexity-chart">
+          <div class="cc-before">
+            <div class="cc-label">Before Lumina</div>
+            <div class="cc-icon">😵</div>
+            <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:1rem 0;">
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Philips App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Nest App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Ring App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">LIFX App</div>
+              <div style="padding:4px 8px;background:rgba(255,255,255,0.08);border-radius:6px;font-size:0.6rem;color:var(--text-muted);">Samsung App</div>
+            </div>
+            <div class="cc-desc">5 apps · inconsistent UX · no overview · context switching</div>
+          </div>
+          <div class="cc-arrow">→</div>
+          <div class="cc-after">
+            <div class="cc-label">After Lumina</div>
+            <div class="cc-icon">🏠</div>
+            <div style="padding:8px 16px;background:rgba(233,180,182,0.15);border:1px solid rgba(233,180,182,0.3);border-radius:8px;margin:1rem auto;width:fit-content;">
+              <div style="font-size:0.65rem;color:var(--pink);">Lumina</div>
+            </div>
+            <div class="cc-desc">1 app · unified interface · home overview · intelligent scenes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Architecture</div>
+        <h2>Organising by <em>place, not product</em></h2>
+      </div>
+      <p data-animate>The key insight from research: users think about their home in rooms and activities, not device categories. Reorganising the IA around spaces (Living Room, Bedroom, Kitchen) rather than device types (Lights, Locks, Cameras) reduced cognitive load dramatically.</p>
+      <p data-animate style="margin-top:1rem;">I introduced "Scenes" — one-tap presets that configure multiple devices simultaneously for common scenarios (Morning, Movie Night, Away). Testing showed scenes became the most-used feature within the first week of use.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="lumina-demo">
+          <div class="ld-tablet">
+            <div class="ld-bar">
+              <div class="ld-bar-title">Good Evening, Aria</div>
+              <div class="ld-bar-time">8:47 PM · Tuesday</div>
+            </div>
+            <div class="ld-greeting">
+              <div class="ld-greeting-text">
+                <h3>All systems normal</h3>
+                <p>3 lights on · Security armed · 21°C inside</p>
+              </div>
+              <div class="ld-scene-btn">
+                <div class="ld-scene">Morning</div>
+                <div class="ld-scene ld-scene--active">Evening</div>
+                <div class="ld-scene">Movie</div>
+                <div class="ld-scene">Away</div>
+              </div>
+            </div>
+            <div class="ld-main-grid">
+              <div class="ld-tile ld-tile--on">
+                <div class="ld-tile-icon">💡</div>
+                <div class="ld-tile-room">Living Room</div>
+                <div class="ld-tile-status">On · 60%</div>
+                <div class="ld-toggle">
+                  <div class="ld-toggle-track ld-toggle-track--on"><div class="ld-toggle-knob"></div></div>
+                </div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">🌡</div>
+                <div class="ld-tile-room">Thermostat</div>
+                <div class="ld-tile-status">21°C</div>
+                <div class="ld-tile-sub">Target: 22°C</div>
+              </div>
+              <div class="ld-tile ld-tile--on">
+                <div class="ld-tile-icon">🔒</div>
+                <div class="ld-tile-room">Front Door</div>
+                <div class="ld-tile-status">Locked</div>
+                <div class="ld-tile-sub">Last: 6:12 PM</div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">📷</div>
+                <div class="ld-tile-room">Driveway</div>
+                <div class="ld-tile-status">Active</div>
+                <div class="ld-tile-sub">No motion</div>
+              </div>
+              <div class="ld-tile ld-tile--on ld-tile--large">
+                <div class="ld-tile-icon">🎵</div>
+                <div class="ld-tile-room">Sonos · Kitchen</div>
+                <div class="ld-tile-status">Playing</div>
+                <div class="ld-tile-sub">Jazz & Chill Playlist · Vol 45%</div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">💡</div>
+                <div class="ld-tile-room">Bedroom</div>
+                <div class="ld-tile-status">Off</div>
+                <div class="ld-toggle">
+                  <div class="ld-toggle-track"><div class="ld-toggle-knob"></div></div>
+                </div>
+              </div>
+              <div class="ld-tile">
+                <div class="ld-tile-icon">🚿</div>
+                <div class="ld-tile-room">Bathroom</div>
+                <div class="ld-tile-status">Off</div>
+                <div class="ld-toggle">
+                  <div class="ld-toggle-track"><div class="ld-toggle-knob"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="ld-energy">
+              <div class="ld-energy-title">Energy Usage Today · 8.2 kWh</div>
+              <div class="ld-energy-bars">
+                <div class="ld-energy-bar" style="height:30%"></div>
+                <div class="ld-energy-bar" style="height:45%"></div>
+                <div class="ld-energy-bar" style="height:60%"></div>
+                <div class="ld-energy-bar" style="height:80%"></div>
+                <div class="ld-energy-bar" style="height:55%"></div>
+                <div class="ld-energy-bar ld-energy-bar--now" style="height:70%"></div>
+                <div class="ld-energy-bar" style="height:20%;opacity:0.3"></div>
+              </div>
+            </div>
+            <div class="ld-bottom">
+              <div class="ld-bottom-card">
+                <div class="ld-bottom-label">Today vs Yesterday</div>
+                <div class="ld-bottom-val">−12%</div>
+              </div>
+              <div class="ld-bottom-card">
+                <div class="ld-bottom-label">Active Devices</div>
+                <div class="ld-bottom-val">5 / 14</div>
+              </div>
+              <div class="ld-bottom-card">
+                <div class="ld-bottom-label">Security</div>
+                <div class="ld-bottom-val" style="color:rgba(100,200,100,0.8);">Armed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — Results</div>
+        <h2>From chaos to <em>clarity</em></h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="58">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">reduction in time<br>to complete tasks</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="94">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">task completion<br>success rate</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="62">0</span>
+          <span class="result-label">Net Promoter<br>Score</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"I actually enjoy using my smart home now. Before Lumina, I'd given up trying to use half the features." — Beta user, 41</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Sage Journal — <em>Mental Health</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="#" data-nav="project-4" class="btn btn-primary">View Case Study →</a>
+        <a href="#" data-nav="home" data-hash="projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="#" data-nav="home" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+</div>
+<div id="proj-view-4" class="proj-view" style="display:none">
+<style>
+:root {
+  --dark: #1C3D22; --mid: #1E5433; --pink: #E9B4B6; --cream: #F1E5D9;
+  --text-muted: rgba(241,229,217,0.6); --border: rgba(241,229,217,0.12);
+  --radius: 20px; --radius-sm: 12px; --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--cream); overflow-x: hidden; cursor: none; opacity: 0; transition: opacity 0.5s ease; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--pink); color: var(--dark); }
+.cursor { position: fixed; width: 36px; height: 36px; border: 1.5px solid var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; }
+.cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+@media (hover: none) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+.scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, var(--pink), var(--cream)); z-index: 10000; }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 2.5rem; background: rgba(28,61,34,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--cream); cursor: none; transition: color 0.3s; }
+.nav-logo:hover { color: var(--pink); }
+.nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s, gap 0.3s; cursor: none; }
+.nav-back:hover { color: var(--pink); gap: 0.8rem; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.container--narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+.label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.8rem; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.15; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.2; }
+em { font-style: italic; color: var(--pink); }
+p { font-size: 1rem; line-height: 1.8; color: rgba(241,229,217,0.8); }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; transition: var(--transition); cursor: none; border: none; }
+.btn-primary { background: var(--pink); color: var(--dark); }
+.btn-primary:hover { background: #f0c2c4; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(233,180,182,0.3); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(241,229,217,0.3); }
+.btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+.proj-hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 9rem 0 5rem; position: relative; overflow: hidden; }
+.proj-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.proj-hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(28,61,34,0.6) 60%, var(--dark) 100%); z-index: 1; }
+.proj-hero-content { position: relative; z-index: 2; }
+.proj-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
+.proj-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.proj-meta-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); }
+.proj-meta-value { font-size: 0.95rem; color: var(--cream); }
+.proj-overview { padding: 6rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.proj-overview-text p { margin-bottom: 1.2rem; }
+.aside-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.aside-card + .aside-card { margin-top: 1rem; }
+.aside-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--pink); margin-bottom: 0.8rem; font-weight: 500; letter-spacing: 0.05em; }
+.aside-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.aside-list li { font-size: 0.9rem; color: var(--text-muted); padding-left: 1rem; position: relative; }
+.aside-list li::before { content: '–'; position: absolute; left: 0; color: var(--pink); }
+.proj-section { padding: 5rem 0; }
+.proj-section + .proj-section { border-top: 1px solid var(--border); }
+.proj-section-header { margin-bottom: 3rem; }
+.proj-section-header h2 { margin-top: 0.5rem; }
+.visual-block { border-radius: var(--radius); overflow: hidden; background: var(--mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 3rem; min-height: 300px; position: relative; }
+.visual-block--tall { min-height: 500px; }
+.visual-block--dark { background: #0d2414; }
+.visual-block + .visual-block { margin-top: 1.5rem; }
+.content-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+.content-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2.5rem 0; }
+.insight-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.8rem; }
+.insight-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.6rem; font-weight: 500; }
+.insight-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.callout { border-left: 3px solid var(--pink); padding: 1.2rem 1.8rem; margin: 2.5rem 0; background: rgba(233,180,182,0.06); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.callout p { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--cream); margin: 0; line-height: 1.5; }
+.step-list { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+.step-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--pink); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: right; }
+.step-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-weight: 500; margin-bottom: 0.3rem; }
+.step-body p { font-size: 0.9rem; margin: 0; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+.result-card { text-align: center; padding: 2.5rem 1.5rem; background: rgba(233,180,182,0.08); border: 1px solid rgba(233,180,182,0.2); border-radius: var(--radius); }
+.result-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--pink); font-weight: 400; line-height: 1; display: block; margin-bottom: 0.5rem; }
+.result-label { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+.next-project { padding: 8rem 0; text-align: center; border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+.next-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 1rem; }
+.next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 2rem; }
+.next-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.footer { background: #0d2414; padding: 2rem 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream); font-weight: 600; }
+.footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+.footer-back { font-size: 0.82rem; color: var(--text-muted); transition: color 0.3s; cursor: none; }
+.footer-back:hover { color: var(--pink); }
+[data-animate] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) { .proj-overview { grid-template-columns: 1fr; gap: 3rem; } .content-2col { grid-template-columns: 1fr; gap: 2rem; } .content-3col { grid-template-columns: 1fr 1fr; } .results-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .nav { padding: 1rem 1.2rem; } .container, .container--narrow { padding: 0 1.2rem; } .proj-hero { min-height: 70vh; padding: 8rem 0 4rem; } .proj-section { padding: 3.5rem 0; } .content-3col { grid-template-columns: 1fr; } .results-grid { grid-template-columns: 1fr; } .visual-block { padding: 1.5rem; min-height: 200px; } .proj-meta { gap: 1.5rem; } .footer-inner { flex-direction: column; align-items: center; text-align: center; } }
+  </style>
+<style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #1a0e28 0%, #2e1a42 40%, #1E5433 90%, #2d7a4f 130%);
+    }
+    .sage-screens {
+      display: flex; gap: 1.5rem; justify-content: center; align-items: flex-start; flex-wrap: wrap;
+    }
+    .ss-phone {
+      width: 170px;
+      background: #120c1e;
+      border-radius: 28px;
+      padding: 14px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    }
+    .ss-notch { width: 45px; height: 8px; background: #120c1e; border-radius: 0 0 8px 8px; margin: 0 auto 10px; }
+    .ss-inner { background: #1a0e28; border-radius: 18px; padding: 14px; overflow: hidden; }
+    .ss-date { font-size: 0.45rem; color: rgba(241,229,217,0.4); margin-bottom: 3px; }
+    .ss-heading { font-family: 'Cormorant Garamond', serif; font-size: 0.7rem; color: var(--cream); margin-bottom: 10px; }
+    .ss-moods { display: flex; justify-content: space-around; margin-bottom: 10px; font-size: 0.75rem; }
+    .ss-mood { opacity: 0.35; }
+    .ss-mood--active { opacity: 1; transform: scale(1.15); }
+    .ss-entry {
+      background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; margin-bottom: 8px;
+    }
+    .ss-line { height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; margin-bottom: 5px; }
+    .ss-line-sm { width: 65%; }
+    .ss-line-med { width: 85%; }
+    .ss-cursor { width: 1px; height: 8px; background: #9b7fd4; display: inline-block; animation: blink 1.2s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .ss-insight {
+      background: rgba(155,127,212,0.1); border: 1px solid rgba(155,127,212,0.2);
+      border-radius: 8px; padding: 8px;
+    }
+    .ss-insight-label { font-size: 0.38rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9b7fd4; margin-bottom: 3px; }
+    .ss-insight-text { font-size: 0.44rem; color: var(--cream); line-height: 1.5; }
+
+    .ss-cal { margin-bottom: 8px; }
+    .ss-cal-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;
+    }
+    .ss-cal-month { font-size: 0.5rem; color: var(--cream); }
+    .ss-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+    .ss-day {
+      aspect-ratio: 1; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.3rem; color: rgba(241,229,217,0.4);
+    }
+    .ss-day--filled { background: rgba(155,127,212,0.2); color: rgba(241,229,217,0.7); }
+    .ss-day--high { background: rgba(233,180,182,0.3); color: var(--pink); }
+    .ss-day--today { background: #9b7fd4; color: white; font-weight: 700; }
+
+    .ethics-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .ethics-card {
+      background: rgba(155,127,212,0.08);
+      border: 1px solid rgba(155,127,212,0.15);
+      border-radius: var(--radius-sm);
+      padding: 1.8rem;
+    }
+    .ethics-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+    .ethics-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.5rem; }
+    .ethics-text { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+  </style>
+<nav class="nav">
+    <a href="#" data-nav="home" class="nav-logo">AC</a>
+    <a href="#" data-nav="home" data-hash="projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;right:15%;top:25%;font-size:12rem;opacity:0.05;user-select:none;">🌙</div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Mobile App · Mental Health · 2023</div>
+      <h1 data-animate>Sage Journal</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        An AI-powered journaling app that helps users understand their emotional patterns, recognise triggers, and build genuine resilience.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">Lead UX Designer</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">16 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Maze, Lottie, Principle</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">iOS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Journaling apps that don't understand emotions</h2>
+          <p style="margin-top:1.2rem;">Mental health apps often take one of two approaches: clinical (cold CBT worksheets) or superficial (generic affirmations). Neither truly helps users understand themselves. The most valuable insight — pattern recognition across time — was either completely absent or buried in data visualisations users couldn't interpret.</p>
+          <p>Sage was designed to be something more: a companion that reads between the lines, surfaces insights gently, and helps users make sense of their emotional lives without doing the therapeutic work for them.</p>
+          <div class="callout">
+            <p>"How do we use AI to help people feel more human, not less?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Design Challenges</div>
+            <ul class="aside-list">
+              <li>Safe, non-clinical tone of voice</li>
+              <li>AI transparency without complexity</li>
+              <li>Privacy-first architecture</li>
+              <li>Trauma-informed design principles</li>
+              <li>Accessibility for vulnerable users</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Collaborators</div>
+            <ul class="aside-list">
+              <li>Clinical psychologist advisor</li>
+              <li>AI/NLP engineering team</li>
+              <li>Content & ethics review board</li>
+              <li>Trauma-informed UX consultant</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Ethics First</div>
+        <h2>Designing for <em>vulnerability</em></h2>
+      </div>
+      <p data-animate>Before a single wireframe was drawn, I spent four weeks working with a clinical psychologist and an ethics board to establish design principles for a mental health app. This was not typical UX research — it was a fundamental rethinking of what responsible design means when users are at their most vulnerable.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="ethics-grid">
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">🛡</div>
+          <div class="ethics-title">Privacy by default</div>
+          <p class="ethics-text">All entries encrypted on-device. AI processing occurs locally when possible. No user data used for model training without explicit, informed consent.</p>
+        </div>
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">🌱</div>
+          <div class="ethics-title">No gamification of wellbeing</div>
+          <p class="ethics-text">No streaks, no leaderboards, no "you missed 3 days!" notifications. Mental health is not a game. Consistency is encouraged gently, never enforced.</p>
+        </div>
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">🤲</div>
+          <div class="ethics-title">Always offer support</div>
+          <p class="ethics-text">Any entry containing distress signals (validated NLP triggers) presents a gentle check-in and access to crisis resources — without alarming the user.</p>
+        </div>
+        <div class="ethics-card" data-animate>
+          <div class="ethics-icon">💡</div>
+          <div class="ethics-title">Transparent AI</div>
+          <p class="ethics-text">AI insights are clearly labelled, always optional, and framed as observations — never diagnoses. "It seems like..." not "You are...".</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Design</div>
+        <h2>Warmth in every pixel</h2>
+      </div>
+      <p data-animate>The visual design needed to feel like a warm, dimly lit room — safe, private, unhurried. I moved away from the bright whites and sharp contrasts typical of productivity apps, choosing instead deep purples, warm creams, and gentle amber accents.</p>
+      <p data-animate style="margin-top:1rem;">Typography choices leaned into editoriality — Cormorant Garamond for headings giving the journal a handwritten quality without being decorative to the point of illegibility. Generous line heights and white space created room to breathe.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate style="background:#120c1e;">
+        <div class="sage-screens">
+          <div class="ss-phone">
+            <div class="ss-notch"></div>
+            <div class="ss-inner">
+              <div class="ss-date">Wednesday, March 4 · 9:41 PM</div>
+              <div class="ss-heading">How are you feeling tonight?</div>
+              <div class="ss-moods">
+                <div class="ss-mood">😔</div>
+                <div class="ss-mood">😐</div>
+                <div class="ss-mood ss-mood--active">😌</div>
+                <div class="ss-mood">😊</div>
+                <div class="ss-mood">🤗</div>
+              </div>
+              <div class="ss-entry">
+                <div class="ss-line"></div>
+                <div class="ss-line ss-line-sm"></div>
+                <div class="ss-line ss-line-med"></div>
+                <div class="ss-line" style="width:40%"></div>
+                <span class="ss-cursor"></span>
+              </div>
+              <div class="ss-insight">
+                <div class="ss-insight-label">✨ Sage Insight</div>
+                <div class="ss-insight-text">You've felt calm on 5 evenings this week — more than any week this month.</div>
+              </div>
+            </div>
+          </div>
+          <div class="ss-phone" style="margin-top:30px;">
+            <div class="ss-notch"></div>
+            <div class="ss-inner">
+              <div class="ss-date">Your Month</div>
+              <div class="ss-cal">
+                <div class="ss-cal-header">
+                  <span class="ss-cal-month">March 2024</span>
+                </div>
+                <div class="ss-cal-grid">
+                  <div class="ss-day">S</div><div class="ss-day">M</div><div class="ss-day">T</div>
+                  <div class="ss-day">W</div><div class="ss-day">T</div><div class="ss-day">F</div><div class="ss-day">S</div>
+                  <div class="ss-day ss-day--filled">1</div>
+                  <div class="ss-day ss-day--filled">2</div>
+                  <div class="ss-day ss-day--high">3</div>
+                  <div class="ss-day ss-day--today">4</div>
+                  <div class="ss-day">5</div>
+                  <div class="ss-day">6</div>
+                  <div class="ss-day">7</div>
+                  <div class="ss-day ss-day--filled">8</div>
+                  <div class="ss-day ss-day--high">9</div>
+                  <div class="ss-day ss-day--filled">10</div>
+                  <div class="ss-day ss-day--filled">11</div>
+                  <div class="ss-day">12</div>
+                  <div class="ss-day ss-day--filled">13</div>
+                  <div class="ss-day ss-day--filled">14</div>
+                </div>
+              </div>
+              <div style="background:rgba(155,127,212,0.08);border-radius:8px;padding:8px;margin-bottom:6px;">
+                <div style="font-size:0.42rem;color:#9b7fd4;margin-bottom:3px;">Top emotion this month</div>
+                <div style="font-size:0.6rem;color:var(--cream);">Calm · 9 days</div>
+              </div>
+              <div style="display:flex;gap:4px;">
+                <div style="flex:1;height:25px;background:rgba(155,127,212,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:#9b7fd4;">14 entries</div>
+                <div style="flex:1;height:25px;background:rgba(233,180,182,0.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.4rem;color:var(--pink);">5 insights</div>
+              </div>
+            </div>
+          </div>
+          <div class="ss-phone">
+            <div class="ss-notch"></div>
+            <div class="ss-inner">
+              <div class="ss-date">Pattern Discovered</div>
+              <div style="background:rgba(155,127,212,0.15);border-radius:10px;padding:10px;margin-bottom:8px;">
+                <div style="font-size:0.55rem;color:#c4a8f0;font-family:'Cormorant Garamond',serif;margin-bottom:6px;font-style:italic;">It seems like...</div>
+                <div style="font-size:0.5rem;color:var(--cream);line-height:1.6;">Your mood on Mondays is consistently lower than other days. This has appeared 3 weeks in a row.</div>
+              </div>
+              <div style="font-size:0.42rem;color:var(--text-muted);margin-bottom:8px;">Based on 12 entries · AI observation, not diagnosis</div>
+              <div style="display:flex;gap:4px;">
+                <div style="flex:1;padding:6px;background:rgba(155,127,212,0.2);border-radius:8px;text-align:center;font-size:0.42rem;color:#c4a8f0;">Explore →</div>
+                <div style="flex:1;padding:6px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:0.42rem;color:var(--text-muted);">Dismiss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — Testing</div>
+        <h2>Getting feedback on <em>sensitive ground</em></h2>
+      </div>
+      <p data-animate>Usability testing a mental health app requires careful handling. I partnered with a clinical psychologist for all test sessions and implemented a comprehensive debrief protocol. Participants were screened to ensure they weren't in crisis, and all sessions included an emotional check-in at the end.</p>
+      <p data-animate style="margin-top:1rem;">We ran 5 rounds of testing with 8 participants each, focusing on three core flows: entry creation, insight review, and crisis support discovery. The biggest learning: users wanted even more transparency about how the AI worked, not less.</p>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Results</div>
+        <h2>Metrics that matter</h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="82">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">Day-60 retention<br>(vs 34% industry avg)</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="91">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">felt AI insights<br>were trustworthy</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="4">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">.9★</span>
+          <span class="result-label">App Store rating<br>after launch</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"For the first time in years, I feel like I actually understand my own patterns. Sage helped me see what I couldn't see myself." — User review</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Next Project</div>
+      <h2 class="next-title" data-animate>Terra — <em>Environmental Platform</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="#" data-nav="project-5" class="btn btn-primary">View Case Study →</a>
+        <a href="#" data-nav="home" data-hash="projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="#" data-nav="home" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+</div>
+<div id="proj-view-5" class="proj-view" style="display:none">
+<style>
+:root {
+  --dark: #1C3D22; --mid: #1E5433; --pink: #E9B4B6; --cream: #F1E5D9;
+  --text-muted: rgba(241,229,217,0.6); --border: rgba(241,229,217,0.12);
+  --radius: 20px; --radius-sm: 12px; --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--cream); overflow-x: hidden; cursor: none; opacity: 0; transition: opacity 0.5s ease; }
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--pink); color: var(--dark); }
+.cursor { position: fixed; width: 36px; height: 36px; border: 1.5px solid var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; }
+.cursor-dot { position: fixed; width: 6px; height: 6px; background: var(--pink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+@media (hover: none) { .cursor, .cursor-dot { display: none; } body { cursor: auto; } }
+.scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 2px; background: linear-gradient(90deg, var(--pink), var(--cream)); z-index: 10000; }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 2.5rem; background: rgba(28,61,34,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; color: var(--cream); cursor: none; transition: color 0.3s; }
+.nav-logo:hover { color: var(--pink); }
+.nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s, gap 0.3s; cursor: none; }
+.nav-back:hover { color: var(--pink); gap: 0.8rem; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+.container--narrow { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+.label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 0.8rem; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h1 { font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.05; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.15; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.2; }
+em { font-style: italic; color: var(--pink); }
+p { font-size: 1rem; line-height: 1.8; color: rgba(241,229,217,0.8); }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.8rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; transition: var(--transition); cursor: none; border: none; }
+.btn-primary { background: var(--pink); color: var(--dark); }
+.btn-primary:hover { background: #f0c2c4; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(233,180,182,0.3); }
+.btn-ghost { background: transparent; color: var(--cream); border: 1.5px solid rgba(241,229,217,0.3); }
+.btn-ghost:hover { border-color: var(--cream); transform: translateY(-2px); }
+.proj-hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 9rem 0 5rem; position: relative; overflow: hidden; }
+.proj-hero-bg { position: absolute; inset: 0; z-index: 0; }
+.proj-hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(28,61,34,0.6) 60%, var(--dark) 100%); z-index: 1; }
+.proj-hero-content { position: relative; z-index: 2; }
+.proj-meta { display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2rem; }
+.proj-meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.proj-meta-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); }
+.proj-meta-value { font-size: 0.95rem; color: var(--cream); }
+.proj-overview { padding: 6rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.proj-overview-text p { margin-bottom: 1.2rem; }
+.aside-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.aside-card + .aside-card { margin-top: 1rem; }
+.aside-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--pink); margin-bottom: 0.8rem; font-weight: 500; letter-spacing: 0.05em; }
+.aside-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.aside-list li { font-size: 0.9rem; color: var(--text-muted); padding-left: 1rem; position: relative; }
+.aside-list li::before { content: '–'; position: absolute; left: 0; color: var(--pink); }
+.proj-section { padding: 5rem 0; }
+.proj-section + .proj-section { border-top: 1px solid var(--border); }
+.proj-section-header { margin-bottom: 3rem; }
+.proj-section-header h2 { margin-top: 0.5rem; }
+.visual-block { border-radius: var(--radius); overflow: hidden; background: var(--mid); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 3rem; min-height: 300px; position: relative; }
+.visual-block--tall { min-height: 500px; }
+.visual-block--dark { background: #0d2414; }
+.visual-block + .visual-block { margin-top: 1.5rem; }
+.content-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+.content-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 2.5rem 0; }
+.insight-card { background: rgba(30,84,51,0.4); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1.8rem; }
+.insight-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); margin-bottom: 0.6rem; font-weight: 500; }
+.insight-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+.callout { border-left: 3px solid var(--pink); padding: 1.2rem 1.8rem; margin: 2.5rem 0; background: rgba(233,180,182,0.06); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.callout p { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; color: var(--cream); margin: 0; line-height: 1.5; }
+.step-list { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+.step-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--pink); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 2.5rem; text-align: right; }
+.step-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); font-weight: 500; margin-bottom: 0.3rem; }
+.step-body p { font-size: 0.9rem; margin: 0; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+.result-card { text-align: center; padding: 2.5rem 1.5rem; background: rgba(233,180,182,0.08); border: 1px solid rgba(233,180,182,0.2); border-radius: var(--radius); }
+.result-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--pink); font-weight: 400; line-height: 1; display: block; margin-bottom: 0.5rem; }
+.result-label { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+.next-project { padding: 8rem 0; text-align: center; border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+.next-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--pink); margin-bottom: 1rem; }
+.next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); margin-bottom: 2rem; }
+.next-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.footer { background: #0d2414; padding: 2rem 0; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream); font-weight: 600; }
+.footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+.footer-back { font-size: 0.82rem; color: var(--text-muted); transition: color 0.3s; cursor: none; }
+.footer-back:hover { color: var(--pink); }
+[data-animate] { opacity: 0; transform: translateY(30px); transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
+[data-animate].in-view { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) { .proj-overview { grid-template-columns: 1fr; gap: 3rem; } .content-2col { grid-template-columns: 1fr; gap: 2rem; } .content-3col { grid-template-columns: 1fr 1fr; } .results-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .nav { padding: 1rem 1.2rem; } .container, .container--narrow { padding: 0 1.2rem; } .proj-hero { min-height: 70vh; padding: 8rem 0 4rem; } .proj-section { padding: 3.5rem 0; } .content-3col { grid-template-columns: 1fr; } .results-grid { grid-template-columns: 1fr; } .visual-block { padding: 1.5rem; min-height: 200px; } .proj-meta { gap: 1.5rem; } .footer-inner { flex-direction: column; align-items: center; text-align: center; } }
+  </style>
+<style>
+    .proj-hero-bg {
+      background: linear-gradient(135deg, #071a08 0%, #1C3D22 35%, #2d6b34 70%, #3d9040 120%);
+    }
+    .terra-demo {
+      display: flex; gap: 2rem; justify-content: center; align-items: flex-start; flex-wrap: wrap;
+    }
+    .td-browser {
+      width: 520px;
+      background: #0a1a0d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+    .td-chrome {
+      display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: #0d2414;
+    }
+    .td-dots { display: flex; gap: 5px; }
+    .td-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+    .td-url { flex:1; height: 18px; background: rgba(255,255,255,0.06); border-radius: 9px; margin-left: 10px; }
+    .td-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .td-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); }
+    .td-score-badge {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 12px; background: rgba(233,180,182,0.1);
+      border: 1px solid rgba(233,180,182,0.2); border-radius: 20px;
+    }
+    .td-score-badge span { font-size: 0.55rem; color: var(--text-muted); }
+    .td-score-badge strong { font-size: 0.75rem; color: var(--pink); }
+    .td-body { padding: 16px 20px; }
+    .td-overview { display: flex; gap: 10px; margin-bottom: 16px; }
+    .td-stat {
+      flex:1; padding: 10px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 8px; text-align: center;
+    }
+    .td-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--pink); display: block; }
+    .td-stat-label { font-size: 0.38rem; color: var(--text-muted); }
+    .td-chart-wrap {
+      background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px; margin-bottom: 12px;
+    }
+    .td-chart-header {
+      display: flex; justify-content: space-between; margin-bottom: 10px;
+    }
+    .td-chart-title { font-size: 0.5rem; color: var(--cream); }
+    .td-chart-legend { display: flex; gap: 8px; }
+    .td-legend-item { display: flex; align-items: center; gap: 3px; font-size: 0.38rem; color: var(--text-muted); }
+    .td-legend-dot { width: 5px; height: 5px; border-radius: 50%; }
+    .td-bars {
+      display: flex; gap: 8px; align-items: flex-end; height: 60px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .td-bar-group { flex:1; display: flex; gap: 2px; align-items: flex-end; flex-direction: column; }
+    .td-bar { width: 100%; border-radius: 2px 2px 0 0; }
+    .td-bar--this { background: rgba(233,180,182,0.6); }
+    .td-bar--last { background: rgba(30,84,51,0.8); }
+    .td-bar-label { font-size: 0.3rem; color: var(--text-muted); text-align: center; margin-top: 4px; }
+    .td-tips { display: flex; flex-direction: column; gap: 6px; }
+    .td-tip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 10px; background: rgba(255,255,255,0.03);
+      border-radius: 8px; border-left: 2px solid rgba(30,84,51,0.8);
+    }
+    .td-tip--hi { border-left-color: rgba(233,180,182,0.6); }
+    .td-tip-icon { font-size: 0.75rem; flex-shrink: 0; }
+    .td-tip-text { font-size: 0.42rem; color: var(--cream); line-height: 1.5; }
+    .td-tip-impact { font-size: 0.35rem; color: var(--text-muted); margin-top: 1px; }
+
+    .framework-visual {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .fv-card {
+      padding: 1.5rem; background: rgba(30,84,51,0.2);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      text-align: center;
+    }
+    .fv-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .fv-title { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); margin-bottom: 0.5rem; }
+    .fv-text { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+  </style>
+<nav class="nav">
+    <a href="#" data-nav="home" class="nav-logo">AC</a>
+    <a href="#" data-nav="home" data-hash="projects" class="nav-back">← Back to Work</a>
+  </nav>
+
+  <section class="proj-hero">
+    <div class="proj-hero-bg">
+      <div class="proj-hero-bg-overlay"></div>
+      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+        <div style="position:absolute;right:8%;top:20%;font-size:16rem;opacity:0.04;user-select:none;">🌍</div>
+      </div>
+    </div>
+    <div class="container proj-hero-content">
+      <div class="label" data-animate>Web Platform · Environment · 2024</div>
+      <h1 data-animate>Terra</h1>
+      <p style="max-width:560px;font-size:1.2rem;margin-top:1.2rem;color:rgba(241,229,217,0.85);" data-animate>
+        A personal carbon footprint tracker that transforms complex environmental data into clear, actionable steps anyone can take.
+      </p>
+      <div class="proj-meta" data-animate>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">My Role</span>
+          <span class="proj-meta-value">UX/UI Lead · Design System</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Timeline</span>
+          <span class="proj-meta-value">22 Weeks</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Tools</span>
+          <span class="proj-meta-value">Figma, Framer, Lookback</span>
+        </div>
+        <div class="proj-meta-item">
+          <span class="proj-meta-label">Platform</span>
+          <span class="proj-meta-value">Web (Mobile-first)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:5rem 0;background:var(--mid);">
+    <div class="container">
+      <div class="proj-overview" style="padding:0;">
+        <div class="proj-overview-text" data-animate>
+          <div class="label">The Challenge</div>
+          <h2>Climate data that causes anxiety instead of action</h2>
+          <p style="margin-top:1.2rem;">Climate change communication has a well-documented problem: the scale of the crisis is so vast that people either disengage (overwhelm) or overestimate their individual impact (guilt without guidance). Existing carbon calculators produced a number — but no meaningful next step.</p>
+          <p>Terra needed to be different: a platform that made environmental action feel personal, manageable, and — crucially — positive. Change through empowerment, not shame.</p>
+          <div class="callout">
+            <p>"How do we make climate action feel personal, not paralysing?"</p>
+          </div>
+        </div>
+        <div class="proj-overview-aside" data-animate>
+          <div class="aside-card">
+            <div class="aside-title">Scope</div>
+            <ul class="aside-list">
+              <li>Carbon footprint calculator</li>
+              <li>Personalised action recommendations</li>
+              <li>Progress tracking over time</li>
+              <li>Community challenges</li>
+              <li>Offset marketplace integration</li>
+              <li>Business API (B2B tier)</li>
+            </ul>
+          </div>
+          <div class="aside-card">
+            <div class="aside-title">Awards & Recognition</div>
+            <ul class="aside-list">
+              <li>Webby Award nominee 2024</li>
+              <li>UX Design Award — Bronze</li>
+              <li>Featured in FastCompany</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">01 — Research</div>
+        <h2>Understanding why people <em>don't</em> act</h2>
+      </div>
+      <p data-animate>I ran a mixed-methods research programme: a survey of 400 participants across age groups, a 3-week diary study with 15 participants tracking their environmental decision-making, and 20 in-depth interviews with both climate-engaged and climate-disengaged people.</p>
+      <p data-animate style="margin-top:1rem;">The central finding was counterintuitive: the people most disengaged were not climate deniers — they were people who cared deeply but felt their actions were pointless compared to corporate and government inaction. The design problem was restoring agency, not building awareness.</p>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="content-3col">
+        <div class="insight-card" data-animate>
+          <h4>😰 Paralysis by scale</h4>
+          <p>73% of climate-aware participants felt personal actions were "meaningless" against systemic issues. This belief was the primary barrier to any action at all.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🔢 Number blindness</h4>
+          <p>"I've avoided carbon calculators because they just make me feel terrible and I don't know what to do next." — 11 of 20 interview participants expressed this sentiment.</p>
+        </div>
+        <div class="insight-card" data-animate>
+          <h4>🤝 Social proof matters</h4>
+          <p>When participants learned that someone like them had made a specific change, the likelihood of adoption increased by 3–4× compared to reading about abstract impact statistics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">02 — Design Framework</div>
+        <h2>Three principles that guided <em>everything</em></h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top:2.5rem;">
+      <div class="framework-visual">
+        <div class="fv-card" data-animate>
+          <div class="fv-icon">🎯</div>
+          <div class="fv-title">Personal, not global</div>
+          <p class="fv-text">Every metric is contextualised to the user's life. "Your travel footprint is 2× higher than similar people in your city" hits harder than abstract CO₂ numbers.</p>
+        </div>
+        <div class="fv-card" data-animate>
+          <div class="fv-icon">✅</div>
+          <div class="fv-title">Actions over guilt</div>
+          <p class="fv-text">Every piece of data is paired with 1–3 specific, achievable actions. The tone is always empowering, never accusatory.</p>
+        </div>
+        <div class="fv-card" data-animate>
+          <div class="fv-icon">📈</div>
+          <div class="fv-title">Visible progress</div>
+          <p class="fv-text">Users can see their footprint reduce over time, creating a positive feedback loop. Momentum is more motivating than perfection.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">03 — The Dashboard</div>
+        <h2>Data as a tool, not a verdict</h2>
+      </div>
+      <p data-animate>The dashboard was the hardest problem to solve. Early versions showed total carbon numbers prominently — this tested poorly. Users immediately felt judged. The solution: lead with trend and momentum, not absolute numbers. The most important thing isn't where you are — it's which direction you're moving.</p>
+    </div>
+    <div class="container" style="margin-top:3rem;">
+      <div class="visual-block visual-block--dark visual-block--tall" data-animate>
+        <div class="terra-demo">
+          <div class="td-browser">
+            <div class="td-chrome">
+              <div class="td-dots"><span></span><span></span><span></span></div>
+              <div class="td-url"></div>
+            </div>
+            <div class="td-nav">
+              <div class="td-logo">🌍 Terra</div>
+              <div class="td-score-badge">
+                <span>Your Score</span>
+                <strong>68 / 100</strong>
+              </div>
+              <div style="display:flex;gap:10px;">
+                <div style="font-size:0.5rem;color:var(--text-muted);">Dashboard</div>
+                <div style="font-size:0.5rem;color:var(--text-muted);">Actions</div>
+                <div style="font-size:0.5rem;color:var(--text-muted);">Community</div>
+              </div>
+            </div>
+            <div class="td-body">
+              <div style="font-size:0.55rem;color:var(--cream);margin-bottom:8px;">
+                You're trending <span style="color:rgba(100,200,100,0.9);">▼ 12% lower</span> than last month 🎉
+              </div>
+              <div class="td-overview">
+                <div class="td-stat">
+                  <span class="td-stat-num">4.2t</span>
+                  <span class="td-stat-label">Annual CO₂</span>
+                </div>
+                <div class="td-stat">
+                  <span class="td-stat-num">68</span>
+                  <span class="td-stat-label">Terra Score</span>
+                </div>
+                <div class="td-stat">
+                  <span class="td-stat-num">−12%</span>
+                  <span class="td-stat-label">vs Last Month</span>
+                </div>
+                <div class="td-stat">
+                  <span class="td-stat-num">3</span>
+                  <span class="td-stat-label">Actions Done</span>
+                </div>
+              </div>
+              <div class="td-chart-wrap">
+                <div class="td-chart-header">
+                  <div class="td-chart-title">By Category — This vs Last Month</div>
+                  <div class="td-chart-legend">
+                    <div class="td-legend-item">
+                      <div class="td-legend-dot" style="background:rgba(233,180,182,0.6)"></div>
+                      <span>This month</span>
+                    </div>
+                    <div class="td-legend-item">
+                      <div class="td-legend-dot" style="background:rgba(30,84,51,0.8)"></div>
+                      <span>Last month</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="td-bars">
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:50px;"></div>
+                    <div class="td-bar td-bar--this" style="height:38px;"></div>
+                    <div class="td-bar-label">Food</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:42px;"></div>
+                    <div class="td-bar td-bar--this" style="height:55px;"></div>
+                    <div class="td-bar-label">Travel</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:35px;"></div>
+                    <div class="td-bar td-bar--this" style="height:28px;"></div>
+                    <div class="td-bar-label">Home</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:30px;"></div>
+                    <div class="td-bar td-bar--this" style="height:22px;"></div>
+                    <div class="td-bar-label">Shopping</div>
+                  </div>
+                  <div class="td-bar-group">
+                    <div class="td-bar td-bar--last" style="height:20px;"></div>
+                    <div class="td-bar td-bar--this" style="height:15px;"></div>
+                    <div class="td-bar-label">Other</div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size:0.5rem;color:var(--text-muted);margin-bottom:8px;">🎯 Recommended Actions for You</div>
+              <div class="td-tips">
+                <div class="td-tip td-tip--hi">
+                  <div class="td-tip-icon">✈️</div>
+                  <div>
+                    <div class="td-tip-text">Replace one short-haul flight with train travel this year</div>
+                    <div class="td-tip-impact">Could reduce travel footprint by ~30%</div>
+                  </div>
+                </div>
+                <div class="td-tip">
+                  <div class="td-tip-icon">🌱</div>
+                  <div>
+                    <div class="td-tip-text">Try plant-based meals 2× per week</div>
+                    <div class="td-tip-impact">Could save ~0.4t CO₂ per year</div>
+                  </div>
+                </div>
+                <div class="td-tip">
+                  <div class="td-tip-icon">💡</div>
+                  <div>
+                    <div class="td-tip-text">Switch to a renewable energy tariff</div>
+                    <div class="td-tip-impact">Could save ~0.8t CO₂ per year</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proj-section" style="background:var(--mid);">
+    <div class="container--narrow">
+      <div class="proj-section-header" data-animate>
+        <div class="label">04 — Results</div>
+        <h2>Impact that actually <em>moved the needle</em></h2>
+      </div>
+      <p data-animate>Terra launched to 50,000 beta users in January 2024. Within three months, aggregate data showed measurable real-world impact — not just engagement metrics, but actual emissions reductions.</p>
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="results-grid">
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="50">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">k+</span>
+          <span class="result-label">Beta users in<br>first 3 months</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="18">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">avg reduction in<br>user footprint at 90 days</span>
+        </div>
+        <div class="result-card" data-animate>
+          <span class="result-number" data-count="74">0</span><span style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--pink);">%</span>
+          <span class="result-label">of users completed<br>at least one recommended action</span>
+        </div>
+      </div>
+    </div>
+    <div class="container--narrow" style="margin-top:2.5rem;">
+      <div class="callout" data-animate>
+        <p>"Terra is the first environmental app that made me feel like I could actually do something, instead of just feeling guilty." — Beta user, 29</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-project">
+    <div class="container">
+      <div class="next-label" data-animate>Back to the start</div>
+      <h2 class="next-title" data-animate>Bloom Health — <em>Mobile Wellness</em></h2>
+      <div class="next-ctas" data-animate>
+        <a href="#" data-nav="project-1" class="btn btn-primary">View Case Study →</a>
+        <a href="#" data-nav="home" data-hash="projects" class="btn btn-ghost">All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">AC</span>
+        <p class="footer-copy">© 2024 Aria Chen · Designed with intention.</p>
+        <a href="#" data-nav="home" class="footer-back">← Portfolio</a>
+      </div>
+    </div>
+  </footer>
+</div>
+<script>
+(function() {
+  var homeView = document.getElementById('view-home');
+  var allProjViews = document.querySelectorAll('.proj-view');
+
+  function showHome(hash) {
+    allProjViews.forEach(function(v) { v.style.display = 'none'; });
+    homeView.style.display = '';
+    window.scrollTo(0, 0);
+    document.title = 'Aria Chen — UI/UX Designer';
+    if (hash) {
+      setTimeout(function() {
+        var t = document.getElementById(hash);
+        if (t) t.scrollIntoView({ behavior: 'smooth' });
+      }, 80);
+    }
+  }
+
+  function showProject(num) {
+    var view = document.getElementById('proj-view-' + num);
+    if (!view) return;
+    homeView.style.display = 'none';
+    allProjViews.forEach(function(v) { v.style.display = 'none'; });
+    view.style.display = 'block';
+    window.scrollTo(0, 0);
+    setTimeout(function() {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      view.querySelectorAll('[data-animate]').forEach(function(el) {
+        el.classList.remove('in-view'); obs.observe(el);
+      });
+    }, 50);
+    view.querySelectorAll('[data-count]').forEach(function(el) {
+      el.textContent = '0';
+      var co = new IntersectionObserver(function(entries) {
+        if (!entries[0].isIntersecting) return;
+        var target = +el.dataset.count, dur = 1400, t0 = performance.now();
+        (function tick(now) {
+          var p = Math.min((now - t0) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(ease * target);
+          if (p < 1) requestAnimationFrame(tick); else el.textContent = target;
+        })(performance.now());
+        co.unobserve(el);
+      }, { threshold: 0.5 });
+      co.observe(el);
+    });
+  }
+
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('[data-nav]');
+    if (!link) return;
+    e.preventDefault();
+    var nav = link.dataset.nav;
+    if (nav === 'home') showHome(link.dataset.hash || '');
+    else showProject(nav.replace('project-', ''));
+  });
+
+  window.addEventListener('scroll', function() {
+    var bar = document.getElementById('scrollProgress');
+    if (bar) {
+      var pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      bar.style.width = pct + '%';
+    }
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
